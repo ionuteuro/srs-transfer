@@ -225,6 +225,7 @@ textarea { resize: vertical; }
 .footer__copy { color: var(--muted); margin: 0; }
 .footer__small { color: var(--primary); margin: 0; font-weight: 700; letter-spacing: .5px; }
 .footer__admin { color: var(--muted); font-size: 12px; text-decoration: underline; }
+.footer__link { color: var(--muted); font-size: 12px; text-decoration: underline; }
 
 /* Responsive */
 @media (max-width: 900px) {

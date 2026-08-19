@@ -10,6 +10,9 @@ export default function Footer() {
         <p className="footer__copy">© {year} SRS Transfer · Transfer aeroport Otopeni dus-întors</p>
         <p className="footer__small">Confort · Siguranță · Preț fix</p>
         <a className="footer__admin" href="/admin">Acces admin</a>
+        <a className="footer__link" href="https://github.com/ionuteuro/srs-transfer" target="_blank" rel="noopener">
+          Vezi codul pe GitHub
+        </a>
       </div>
     </footer>
   )
