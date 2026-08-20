@@ -23,7 +23,7 @@ export default function Fleet() {
           {cars.map((c) => (
             <article className="car" key={c.id}>
               <div className="car__logo">
-                <c.Logo size={52} />
+                <img className="brand__logo" src={c.logo} alt={`Sigla ${c.brand}`} />
                 <span className={`car__cls car__cls--${c.id}`}>{c.cls}</span>
               </div>
               <div className="car__body">

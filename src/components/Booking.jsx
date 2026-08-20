@@ -190,7 +190,7 @@ export default function Booking() {
                   className={`vehicle ${vehicle === v.id ? 'vehicle--on' : ''}`}
                   onClick={() => setVehicle(v.id)}
                 >
-                  <span className="vehicle__logo"><v.Logo size={40} /></span>
+                  <span className="vehicle__logo"><img className="brand__logo brand__logo--sm" src={v.logo} alt={`Sigla ${v.brand}`} /></span>
                   <span className="vehicle__name">{v.brand} {v.model}</span>
                   <span className="vehicle__cls">{v.cls}</span>
                   <span className="vehicle__price">
@@ -323,7 +323,7 @@ export default function Booking() {
           <aside className="summary">
             <h3>Rezumat</h3>
             <div className="summary__car">
-              <span className="summary__logo"><car.Logo size={34} /></span>
+              <span className="summary__logo"><img className="brand__logo brand__logo--sm" src={car.logo} alt={`Sigla ${car.brand}`} /></span>
               <div>
                 <strong>{car.brand} {car.model}</strong>
                 <span>{car.cls}</span>

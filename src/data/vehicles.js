@@ -1,4 +1,5 @@
-import { ToyotaLogo, DaciaLogo } from '../components/Logos.jsx'
+import daciaLogo from '../assets/logos/dacia.svg'
+import toyotaLogo from '../assets/logos/toyota.svg'
 
 export const vehicles = [
   {
@@ -6,7 +7,7 @@ export const vehicles = [
     brand: 'Dacia',
     model: 'Logan',
     cls: 'Standard',
-    Logo: DaciaLogo,
+    logo: daciaLogo,
     seats: 5,
     bags: 2,
     fuel: 'Benzină',
@@ -19,7 +20,7 @@ export const vehicles = [
     brand: 'Toyota',
     model: 'Corolla Sedan',
     cls: 'Confort',
-    Logo: ToyotaLogo,
+    logo: toyotaLogo,
     seats: 5,
     bags: 3,
     fuel: 'Hybrid',
