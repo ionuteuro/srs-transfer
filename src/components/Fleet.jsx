@@ -22,9 +22,10 @@ export default function Fleet() {
         <div className="grid grid--2">
           {cars.map((c) => (
             <article className="car" key={c.id}>
+              <span className={`car__badge car__badge--${c.id}`}>{c.cls}</span>
               <div className="car__logo">
                 <img className="brand__logo" src={c.logo} alt={`Sigla ${c.brand}`} />
-                <span className={`car__cls car__cls--${c.id}`}>{c.cls}</span>
+                <span className="car__model">{c.model}</span>
               </div>
               <div className="car__body">
                 <h3>
