@@ -123,11 +123,57 @@ a { color: inherit; text-decoration: none; }
   gap: 22px;
   box-shadow: 0 30px 60px rgba(0,0,0,.35);
 }
-.hero__card .plane { font-size: 46px; text-align: center; }
-.route { display: flex; align-items: center; gap: 14px; font-weight: 700; }
-.route__line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); position: relative; }
-.route__line::after { content: '➜'; position: absolute; right: -4px; top: -10px; color: var(--accent); }
-.route--back .route__line::after { content: '⟲'; }
+.flight { position: relative; height: 240px; }
+.flight__path { position: absolute; inset: 0; width: 100%; height: 100%; }
+.flight__path path { fill: none; stroke: rgba(56,189,248,.45); stroke-width: 1.1; stroke-dasharray: 5 6; }
+.node {
+  position: absolute;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  color: var(--text);
+  box-shadow: 0 6px 16px rgba(0,0,0,.3);
+}
+.node--braila { left: 4%; bottom: 10%; }
+.node--otp { right: 4%; top: 10%; }
+.plane {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  color: var(--primary);
+  filter: drop-shadow(0 4px 10px rgba(56,189,248,.55));
+  animation: fly 7s ease-in-out infinite;
+}
+.plane svg { width: 100%; height: 100%; fill: currentColor; }
+@keyframes fly {
+  0%   { left: 16%; top: 76%; transform: translate(-50%,-50%) rotate(215deg); }
+  45%  { left: 47%; top: 43%; transform: translate(-50%,-50%) rotate(22deg); }
+  50%  { left: 78%; top: 16%; transform: translate(-50%,-50%) rotate(34deg); }
+  56%  { left: 78%; top: 16%; transform: translate(-50%,-50%) rotate(34deg); }
+  95%  { left: 47%; top: 43%; transform: translate(-50%,-50%) rotate(202deg); }
+  100% { left: 16%; top: 76%; transform: translate(-50%,-50%) rotate(215deg); }
+}
+.flight__caption { position: relative; height: 24px; text-align: center; }
+.cap {
+  position: absolute;
+  left: 0; right: 0;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--text);
+  opacity: 0;
+}
+.cap--out { animation: capOut 7s ease-in-out infinite; }
+.cap--back { animation: capBack 7s ease-in-out infinite; }
+@keyframes capOut { 0% { opacity: 1 } 44% { opacity: 1 } 52% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes capBack { 0% { opacity: 0 } 54% { opacity: 0 } 60% { opacity: 1 } 96% { opacity: 1 } 100% { opacity: 0 } }
+@media (prefers-reduced-motion: reduce) {
+  .plane, .cap--out, .cap--back { animation: none; }
+  .plane { left: 78%; top: 16%; transform: translate(-50%,-50%) rotate(34deg); }
+  .cap--out { opacity: 1; }
+}
 
 /* Sections */
 .section { padding: 70px 0; }

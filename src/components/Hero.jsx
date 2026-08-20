@@ -24,16 +24,21 @@ export default function Hero() {
           </ul>
         </div>
         <div className="hero__card" aria-hidden="true">
-          <div className="plane">✈️</div>
-          <div className="route">
-            <span>Acasă</span>
-            <span className="route__line" />
-            <span>OTP</span>
+          <div className="flight">
+            <svg className="flight__path" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <path d="M14 86 Q50 50 86 14" />
+            </svg>
+            <span className="node node--braila">Braila</span>
+            <span className="node node--otp">Otopeni · OTP</span>
+            <span className="plane">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L11 19v-5.5z" />
+              </svg>
+            </span>
           </div>
-          <div className="route route--back">
-            <span>OTP</span>
-            <span className="route__line" />
-            <span>Acasă</span>
+          <div className="flight__caption">
+            <span className="cap cap--out">Din Braila catre Otopeni ✈</span>
+            <span className="cap cap--back">Din Otopeni acasa la Braila ✈</span>
           </div>
         </div>
       </div>
