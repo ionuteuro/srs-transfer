@@ -276,6 +276,14 @@ textarea { resize: vertical; }
 }
 .car__cls--logan { background: #cbd5e1; }
 .car__cls--corolla { background: #fca5a5; }
+.car__img {
+  width: 72px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0,0,0,.18);
+}
 .car__body { flex: 1; display: flex; flex-direction: column; }
 .car__body h3 { margin: 0 0 10px; font-size: 20px; }
 .car__specs { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0 0 12px; color: var(--muted); font-size: 14px; font-weight: 600; flex-wrap: wrap; }
@@ -317,7 +325,8 @@ textarea { resize: vertical; }
   transition: border-color .2s, background .2s;
 }
 .vehicle--on { border-color: var(--primary); background: rgba(14,165,233,.1); }
-.vehicle__logo { grid-area: logo; background: #fff; border-radius: 10px; padding: 6px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.vehicle__logo { grid-area: logo; background: #fff; border-radius: 10px; padding: 4px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.vehicle__img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; }
 .vehicle__name { grid-area: name; font-weight: 700; }
 .vehicle__cls { grid-area: cls; color: var(--muted); font-size: 12px; }
 .vehicle__price { grid-area: price; font-weight: 800; color: var(--accent); }
@@ -357,7 +366,8 @@ textarea { resize: vertical; }
 }
 .summary h3 { margin: 0 0 16px; }
 .summary__car { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.summary__logo { background: #fff; border-radius: 10px; padding: 6px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+.summary__logo { background: #fff; border-radius: 10px; padding: 4px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+.summary__img { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; }
 .summary__car div { display: flex; flex-direction: column; }
 .summary__car span { color: var(--muted); font-size: 13px; }
 .summary__list { list-style: none; padding: 0; margin: 0 0 14px; }
