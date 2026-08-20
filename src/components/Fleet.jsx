@@ -25,7 +25,7 @@ export default function Fleet() {
               <span className={`car__badge car__badge--${c.id}`}>{c.cls}</span>
               <div className="car__logo">
                 <img className="brand__logo" src={c.logo} alt={`Sigla ${c.brand}`} />
-                <span className="car__model">{c.model}</span>
+                <span className={`car__model car__model--${c.id}`}>{c.model}</span>
               </div>
               <div className="car__body">
                 <h3>

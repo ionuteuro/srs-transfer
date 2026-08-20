@@ -18,7 +18,7 @@ export const vehicles = [
   {
     id: 'corolla',
     brand: 'Toyota',
-    model: 'Corolla Sedan',
+    model: 'Corolla',
     cls: 'Confort',
     logo: toyotaLogo,
     seats: 5,
