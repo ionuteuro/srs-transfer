@@ -26,10 +26,16 @@ export default function Hero() {
         <div className="hero__card" aria-hidden="true">
           <div className="flight">
             <svg className="flight__path" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="routeGrad" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stopColor="#38bdf8" />
+                  <stop offset="1" stopColor="#22d3ee" />
+                </linearGradient>
+              </defs>
               <path d="M14 86 Q50 50 86 14" />
             </svg>
-            <span className="node node--braila">Braila</span>
-            <span className="node node--otp">Otopeni · OTP</span>
+            <span className="node node--braila">Braila<span className="node__ping" /></span>
+            <span className="node node--otp">Otopeni · OTP<span className="node__ping" /></span>
             <span className="plane">
               <svg viewBox="0 0 24 24">
                 <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L11 19v-5.5z" />
