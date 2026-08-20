@@ -1,27 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132" width="120" height="132" role="img" aria-label="Dacia">
-  <defs>
-    <linearGradient id="daciaMetal" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fbfdff"/>
-      <stop offset="0.32" stop-color="#d6dee7"/>
-      <stop offset="0.5" stop-color="#8e98a6"/>
-      <stop offset="0.68" stop-color="#c7d0da"/>
-      <stop offset="1" stop-color="#525b67"/>
-    </linearGradient>
-    <linearGradient id="daciaText" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="0.5" stop-color="#b6c0cc"/>
-      <stop offset="1" stop-color="#69727e"/>
-    </linearGradient>
-  </defs>
-  <path d="M60 7 C101 30 101 102 60 125 C19 102 19 30 60 7 Z"
-        fill="url(#daciaMetal)" stroke="#2f343b" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M60 16 C92 35 92 94 60 113 C28 94 28 35 60 16 Z"
-        fill="none" stroke="#eef2f6" stroke-width="1.4" opacity="0.65"/>
-  <text x="60" y="62" text-anchor="middle"
-        font-family="'Helvetica Neue', Arial, sans-serif" font-weight="800"
-        font-size="22" letter-spacing="2.5" fill="url(#daciaText)"
-        stroke="#3a4049" stroke-width="0.5">DACIA</text>
-  <text x="60" y="82" text-anchor="middle"
-        font-family="'Helvetica Neue', Arial, sans-serif" font-weight="600"
-        font-size="9" letter-spacing="4.5" fill="#2f343b">AUTO</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="132.29166mm"
+   height="36.976749mm"
+   viewBox="0 0 132.29166 36.97675"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="Dacia 2021 symbol.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.9729351"
+     inkscape:cx="244.05264"
+     inkscape:cy="72.734275"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-110.21432,-138.29123)">
+    <path
+       d="m 110.21432,138.29123 v 12.29115 h 45.48833 v 6.19703 6.19743 h -45.48833 v 12.29114 h 50.22532 c 1.15207,0 1.9115,-0.3196 2.69672,-1.10909 l 13.22359,-12.8629 13.22399,12.8629 c 0.78522,0.7895 1.54465,1.10909 2.69672,1.10909 h 50.22532 v -12.29114 h -45.48872 v -6.19743 -6.19703 h 45.48872 v -12.29115 h -50.22532 c -1.15207,0 -1.9115,0.3196 -2.69672,1.10909 l -13.22399,12.86291 -13.22359,-12.86291 c -0.78522,-0.78949 -1.54465,-1.10909 -2.69672,-1.10909 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.47549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path4147-2" />
+  </g>
 </svg>
