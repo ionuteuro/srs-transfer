@@ -1,23 +1,23 @@
 const plans = [
   {
     name: 'Doar dus',
-    price: '89',
-    note: 'O singură cursă spre Otopeni',
+    price: '800',
+    note: 'Un segment · Braila → Otopeni',
     features: ['Preluare la ușă', 'Mașină confortabilă', 'Preț fix'],
     highlight: false,
   },
   {
     name: 'Dus-întors',
-    price: '159',
-    note: 'Cea mai aleasă opțiune',
+    price: '1600',
+    note: '2 segmente · cea mai aleasă opțiune',
     features: ['Ambele sensuri', 'Urmărire zbor', 'Așteptare gratuită', 'Reducere pachet'],
     highlight: true,
   },
   {
     name: 'Business',
-    price: '219',
+    price: '2200',
     note: 'Confort premium dus-întors',
-    features: ['Mașină premium', 'Șofer dedicat', 'Statie încărcare', 'Apa & wifi'],
+    features: ['Mașină premium', 'Șofer dedicat', 'Stație încărcare', 'Apa & wifi'],
     highlight: false,
   },
 ]
@@ -28,7 +28,7 @@ export default function Pricing() {
       <div className="container">
         <div className="section__head">
           <h2>Tarife transparente</h2>
-          <p>Prețuri fixe, fără suprataxe ascunse. Plătești la ce ajungi.</p>
+          <p>Prețuri fixe, fără suprataxe ascunse. Tarif: <strong>800 lei / segment</strong> (un sens). Dus-întors = 2 segmente.</p>
         </div>
         <div className="grid grid--3">
           {plans.map((p) => (

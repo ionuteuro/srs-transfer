@@ -10,8 +10,8 @@ export const vehicles = [
     seats: 5,
     bags: 2,
     fuel: 'Benzină',
-    priceDus: 89,
-    priceBoth: 159,
+    priceDus: 800,
+    priceBoth: 1600,
     tags: ['5 locuri', 'Climatizare', 'Spațiu portbagaj'],
   },
   {
@@ -23,8 +23,8 @@ export const vehicles = [
     seats: 5,
     bags: 3,
     fuel: 'Hybrid',
-    priceDus: 119,
-    priceBoth: 199,
+    priceDus: 800,
+    priceBoth: 1600,
     tags: ['5 locuri', 'Hybrid silențios', 'Confort premium'],
   },
 ]

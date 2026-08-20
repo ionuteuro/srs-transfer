@@ -15,7 +15,7 @@ export default function Fleet() {
           <h2>Flota noastră</h2>
           <p>
             Categorie standard cu clasă de confort. Alege mașina potrivită
-            pentru transferul tău Otopeni dus-întors.
+            pentru transferul tău Braila – Otopeni dus-întors.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ export default function Fleet() {
                 </div>
                 <div className="car__price">
                   <div>
-                    <span className="car__price-val">de la {c.priceDus} RON</span>
+                    <span className="car__price-val">de la {c.priceDus} RON / segment</span>
                     <span className="car__price-sub">dus · {c.priceBoth} RON dus-întors</span>
                   </div>
                   <button className="btn btn--primary" onClick={() => reserve(c.id)}>

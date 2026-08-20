@@ -3,7 +3,7 @@ import { getAnswer } from './faq.js'
 
 describe('getAnswer (agent FAQ)', () => {
   it('răspunde la preț', () => {
-    expect(getAnswer('cât costă o cursă?')).toMatch(/89/)
+    expect(getAnswer('cât costă o cursă?')).toMatch(/800/)
   })
   it('răspunde la mașini', () => {
     expect(getAnswer('aveți un Logan?')).toMatch(/Logan/)

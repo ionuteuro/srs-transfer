@@ -2,7 +2,7 @@ const FAQ = [
   {
     keywords: ['pret', 'costa', 'tarif', 'ron', 'preturi', 'valoare'],
     answer:
-      'Tarifele noastre: Dacia Logan – 89 RON dus / 159 RON dus-întors; Toyota Corolla Sedan – 119 RON dus / 199 RON dus-întors. Prețul e fix, fără suprataxe.',
+      'Tariful este de 800 RON / segment (un sens). Dus-întors înseamnă 2 segmente = 1600 RON, pentru ambele mașini (Dacia Logan și Toyota Corolla). Prețul e fix, fără suprataxe.',
   },
   {
     keywords: ['ramburs', 'return', 'bani inapoi', 'anul', 'anulez'],
@@ -12,7 +12,7 @@ const FAQ = [
   {
     keywords: ['dus intors', 'dus-întors', 'retur', 'intoarcere', 'întors'],
     answer:
-      'Oferim transfer Otopeni dus-întors la pachet, cu preț redus față de cursele separate. Te aducem înapoi la sosirea zborului.',
+      'Oferim transfer aeroport Braila – Otopeni dus-întors la pachet, cu preț redus față de cursele separate. Te aducem înapoi la sosirea zborului.',
   },
   {
     keywords: ['masina', 'masini', 'logan', 'corolla', 'dacia', 'toyota', 'flota', 'model'],
@@ -37,7 +37,7 @@ const FAQ = [
   {
     keywords: ['otopeni', 'aeroport', 'henri coanda', 'otp', 'unde'],
     answer:
-      'Te ducem la Aeroportul Internațional Henri Coandă (OTP) și te aducem înapoi, de oriunde din București sau Ilfov.',
+      'Te preluăm din Braila și te ducem la Aeroportul Internațional Henri Coandă (OTP / Otopeni), apoi te aducem înapoi la Braila.',
   },
   {
     keywords: ['contact', 'telefon', 'sun', 'whatsapp', 'email'],

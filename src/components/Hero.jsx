@@ -3,15 +3,15 @@ export default function Hero() {
     <section className="hero" id="top">
       <div className="container hero__inner">
         <div className="hero__content">
-          <span className="badge">Transfer aeroport Otopeni · dus-întors</span>
+          <span className="badge">Transfer aeroport Braila – Otopeni · dus-întors</span>
           <h1>
-            Ajungi la <span className="accent">Otopeni</span> și înapoi,
-            fără griji.
+            Ajungi la <span className="accent">Otopeni</span> și înapoi la
+            <span className="accent"> Braila</span>, fără griji.
           </h1>
           <p className="lead">
-            SRS Transfer te preia de acasă, te duce la Aeroportul Henri
-            Coandă și te aduce înapoi la sosire — la un preț fix, cu șofer
-            punctual și mașină confortabilă.
+            SRS Transfer te preia din Braila, te duce la Aeroportul Henri
+            Coandă (Otopeni) și te aduce înapoi la sosire — la un preț fix, cu
+            șofer punctual și mașină confortabilă.
           </p>
           <div className="hero__actions">
             <a className="btn btn--primary" href="#rezerva">Rezervă cursa</a>

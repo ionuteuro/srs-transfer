@@ -2,12 +2,12 @@ const services = [
   {
     icon: '🚖',
     title: 'Preluare la ușă',
-    text: 'Șoferul te preia din orice zonă a Bucureștiului sau Ilfovului, exact la ora stabilită.',
+    text: 'Șoferul te preia din orice zonă a Brailei, exact la ora stabilită.',
   },
   {
     icon: '✈️',
     title: 'Dus la Otopeni',
-    text: 'Cursă directă către Aeroportul Henri Coandă, fără opriri inutile și fără stres.',
+    text: 'Cursă directă Braila → Aeroportul Henri Coandă (Otopeni), fără opriri inutile și fără stres.',
   },
   {
     icon: '⏱️',

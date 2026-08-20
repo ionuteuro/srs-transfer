@@ -11,6 +11,6 @@ describe('Agent widget', () => {
     const input = screen.getByPlaceholderText('Scrie un mesaj…')
     await userEvent.type(input, 'cat costă?')
     await userEvent.click(screen.getByText('➤'))
-    expect(await screen.findByText(/89/)).toBeInTheDocument()
+    expect(await screen.findByText(/800/)).toBeInTheDocument()
   })
 })
