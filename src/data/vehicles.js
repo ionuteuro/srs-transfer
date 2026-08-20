@@ -1,13 +1,12 @@
-import daciaImg from '../assets/cars/dacia-logan-2016.jpg'
-import toyotaImg from '../assets/cars/toyota-corolla-2024.jpg'
+import { ToyotaLogo, DaciaLogo } from '../components/Logos.jsx'
 
 export const vehicles = [
   {
     id: 'logan',
     brand: 'Dacia',
-    model: 'Logan (2016)',
+    model: 'Logan',
     cls: 'Standard',
-    image: daciaImg,
+    Logo: DaciaLogo,
     seats: 5,
     bags: 2,
     fuel: 'Benzină',
@@ -18,9 +17,9 @@ export const vehicles = [
   {
     id: 'corolla',
     brand: 'Toyota',
-    model: 'Corolla Sedan (2024)',
+    model: 'Corolla Sedan',
     cls: 'Confort',
-    image: toyotaImg,
+    Logo: ToyotaLogo,
     seats: 5,
     bags: 3,
     fuel: 'Hybrid',

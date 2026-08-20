@@ -63,7 +63,7 @@ export function DaciaLogo({ size = 44 }) {
       />
       <text
         x="60"
-        y="58"
+        y="54"
         textAnchor="middle"
         fontFamily="Arial, Helvetica, sans-serif"
         fontWeight="800"
@@ -77,7 +77,7 @@ export function DaciaLogo({ size = 44 }) {
       </text>
       <text
         x="60"
-        y="80"
+        y="74"
         textAnchor="middle"
         fontFamily="Arial, Helvetica, sans-serif"
         fontWeight="600"
