@@ -44,6 +44,11 @@ export default function Hero() {
               Otopeni · OTP
               <span className="node__ping" />
             </span>
+            <span className="car" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M17 18c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-10 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm11.2-7.45l-1.33-2.4C16.49 7.39 15.94 7 15.33 7H8.67c-.61 0-1.16.39-1.34.93l-1.54 2.79C4.74 11.55 4 12.85 4 14.24V17c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h10v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-2.76c0-1.39-.74-2.69-1.8-3.69zM7.5 12.5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm8.5-2.5H8.5l.94-1.75c.05-.09.14-.15.25-.15h4.62c.11 0 .2.06.25.15L15.5 10z" />
+              </svg>
+            </span>
           </div>
           <div className="flight__caption">
             <span className="cap cap--out">Din Brăila către Otopeni</span>
