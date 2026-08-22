@@ -5,9 +5,9 @@ const services = [
     text: 'Șoferul te preia din orice zonă a Brailei, exact la ora stabilită.',
   },
   {
-    icon: '✈️',
+    icon: '🚗',
     title: 'Dus la Otopeni',
-    text: 'Cursă directă Braila → Aeroportul Henri Coandă (Otopeni), fără opriri inutile și fără stres.',
+    text: 'Cursă directă Brăila → Aeroportul Henri Coandă (Otopeni), fără opriri inutile și fără stres.',
   },
   {
     icon: '⏱️',

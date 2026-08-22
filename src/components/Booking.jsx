@@ -80,7 +80,7 @@ export default function Booking() {
       returnDate: form.returnDate,
       returnTime: form.returnTime,
       amount: total,
-      details: `Transfer aeroport Braila–Otopeni · ${car.brand} ${car.model} · ${trip === 'dusIntors' ? 'dus-întors' : 'doar dus'} · ${seats} locuri`,
+      details: `Transfer aeroport Brăila–Otopeni · ${car.brand} ${car.model} · ${trip === 'dusIntors' ? 'dus-întors' : 'doar dus'} · ${seats} locuri`,
     }
     try {
       await fetch('/api/appointments', {
@@ -176,7 +176,7 @@ export default function Booking() {
       <div className="container">
         <div className="section__head">
           <h2>Rezervă transferul</h2>
-          <p>Transfer aeroport <strong>Braila – Otopeni</strong>. Alege clasa, locurile și data. Plata se face doar cu cardul.</p>
+          <p>Transfer aeroport <strong>Brăila – Otopeni</strong>. Alege clasa, locurile și data. Plata se face doar cu cardul.</p>
         </div>
 
         <div className="booking">
@@ -233,13 +233,13 @@ export default function Booking() {
                 <input name="email" type="email" value={form.email} onChange={update} placeholder="tu@email.ro" />
               </label>
             </div>
-            <label className="full">Adresă preluare (Braila)
-              <input name="pickup" value={form.pickup} onChange={update} placeholder="Strada, nr, localitate Braila" />
+            <label className="full">Adresă preluare (Brăila)
+              <input name="pickup" value={form.pickup} onChange={update}               placeholder="Strada, nr, localitate Brăila" />
               {errors.pickup && <em className="err">{errors.pickup}</em>}
             </label>
 
             <fieldset className="leg">
-              <legend>Dus · Braila → Otopeni</legend>
+              <legend>Dus · Brăila → Otopeni</legend>
               <div className="form__row form__row--3">
                 <label>Data plecării
                   <input type="date" name="departDate" value={form.departDate} onChange={update} />
@@ -257,7 +257,7 @@ export default function Booking() {
 
             {trip === 'dusIntors' && (
               <fieldset className="leg">
-                <legend>Întors · Otopeni → Braila</legend>
+                <legend>Întors · Otopeni → Brăila</legend>
                 <div className="form__row form__row--3">
                   <label>Data sosirii
                     <input type="date" name="returnDate" value={form.returnDate} onChange={update} />

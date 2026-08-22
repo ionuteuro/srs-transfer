@@ -9,7 +9,7 @@ export default function Contact() {
             <li><span>📞</span> <a href="tel:+40700000000">+40 700 000 000</a></li>
             <li><span>💬</span> <a href="https://wa.me/40700000000">WhatsApp</a></li>
             <li><span>✉️</span> <a href="mailto:contact@srs-transfer.ro">contact@srs-transfer.ro</a></li>
-            <li><span>📍</span> Braila &amp; Aeroportul Otopeni (OTP)</li>
+            <li><span>📍</span> Brăila &amp; Aeroportul Otopeni (OTP)</li>
           </ul>
         </div>
         <a className="btn btn--primary contact__cta" href="https://wa.me/40700000000">

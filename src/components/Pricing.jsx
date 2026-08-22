@@ -2,7 +2,7 @@ const plans = [
   {
     name: 'Doar dus',
     price: '800',
-    note: 'Un segment · Braila → Otopeni',
+    note: 'Un segment · Brăila → Otopeni',
     features: ['Preluare la ușă', 'Mașină confortabilă', 'Preț fix'],
     highlight: false,
   },

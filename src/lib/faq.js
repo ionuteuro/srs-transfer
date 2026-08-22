@@ -12,7 +12,7 @@ const FAQ = [
   {
     keywords: ['dus intors', 'dus-întors', 'retur', 'intoarcere', 'întors'],
     answer:
-      'Oferim transfer aeroport Braila – Otopeni dus-întors la pachet, cu preț redus față de cursele separate. Te aducem înapoi la sosirea zborului.',
+      'Oferim transfer aeroport Brăila – Otopeni dus-întors la pachet, cu preț redus față de cursele separate. Te aducem înapoi la sosirea zborului.',
   },
   {
     keywords: ['masina', 'masini', 'logan', 'corolla', 'dacia', 'toyota', 'flota', 'model'],
@@ -37,7 +37,7 @@ const FAQ = [
   {
     keywords: ['otopeni', 'aeroport', 'henri coanda', 'otp', 'unde'],
     answer:
-      'Te preluăm din Braila și te ducem la Aeroportul Internațional Henri Coandă (OTP / Otopeni), apoi te aducem înapoi la Braila.',
+      'Te preluăm din Brăila și te ducem la Aeroportul Internațional Henri Coandă (OTP / Otopeni), apoi te aducem înapoi la Brăila.',
   },
   {
     keywords: ['contact', 'telefon', 'sun', 'whatsapp', 'email'],

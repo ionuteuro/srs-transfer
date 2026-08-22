@@ -15,7 +15,7 @@ export default function Fleet() {
           <h2>Flota noastră</h2>
           <p>
             Categorie standard cu clasă de confort. Alege mașina potrivită
-            pentru transferul tău Braila – Otopeni dus-întors.
+            pentru transferul tău Brăila – Otopeni dus-întors.
           </p>
         </div>
 
