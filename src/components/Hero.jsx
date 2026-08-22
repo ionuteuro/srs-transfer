@@ -3,7 +3,7 @@ export default function Hero() {
     <section className="hero" id="top">
       <div className="container hero__inner">
         <div className="hero__content">
-          <span className="badge">Transfer aeroport Brăila – Otopeni · dus-întors</span>
+          <span className="badge">Transfer taxi aeroport Brăila – Otopeni · dus-întors</span>
           <h1>
             Ajungi la <span className="accent">Otopeni</span> și înapoi la
             <span className="accent"> Brăila</span>, fără griji.
@@ -25,11 +25,12 @@ export default function Hero() {
         </div>
         <div className="hero__card" aria-hidden="true">
           <div className="flight">
+            <span className="taxi-badge">🚕 TAXI</span>
             <svg className="map" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="routeGrad" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0" stopColor="#38bdf8" />
-                  <stop offset="1" stopColor="#22d3ee" />
+                  <stop offset="0" stopColor="#fde047" />
+                  <stop offset="1" stopColor="#f59e0b" />
                 </linearGradient>
                 <linearGradient id="landGrad" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stopColor="#0e1a2b" />
@@ -56,7 +57,7 @@ export default function Hero() {
                 <path d="M14 86 C26 80 32 70 40 60" />
               </g>
 
-              <path d="M14 86 Q50 50 86 14" fill="none" stroke="url(#routeGrad)" strokeWidth="2.4" strokeLinecap="round" style={{ filter: 'drop-shadow(0 0 3px rgba(56,189,248,.55))' }} />
+              <path d="M14 86 Q50 50 86 14" fill="none" stroke="url(#routeGrad)" strokeWidth="2.4" strokeLinecap="round" style={{ filter: 'drop-shadow(0 0 3px rgba(245,158,11,.6))' }} />
 
               <g fill="rgba(34,197,130,.45)">
                 <circle cx="22" cy="28" r="1.5" />
@@ -68,7 +69,7 @@ export default function Hero() {
 
               <g transform="translate(90,9)">
                 <circle r="4.6" fill="rgba(255,255,255,.06)" stroke="rgba(148,163,184,.35)" strokeWidth="0.4" />
-                <path d="M0 -3 L1.3 0 L0 3 L-1.3 0 Z" fill="#38bdf8" />
+                <path d="M0 -3 L1.3 0 L0 3 L-1.3 0 Z" fill="#f59e0b" />
                 <text x="0" y="-5.4" fontSize="2.6" textAnchor="middle" fill="rgba(226,232,240,.85)" fontFamily="system-ui, sans-serif">N</text>
               </g>
             </svg>
@@ -82,7 +83,7 @@ export default function Hero() {
               Otopeni · OTP
               <span className="node__ping" />
             </span>
-            <span className="car" aria-hidden="true">🚗</span>
+            <span className="car" aria-hidden="true">🚕</span>
           </div>
           <div className="flight__caption">
             <span className="cap cap--out">Din Brăila către Otopeni</span>
