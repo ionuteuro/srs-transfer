@@ -28,7 +28,10 @@ export default function Hero() {
         <div className="hero__card">
           <RouteMap />
           <div className="hero__card-overlay">
-            <span className="taxi-badge">🚕 TAXI</span>
+            <div className="hero__card-top">
+              <span className="taxi-badge">🚕 TAXI</span>
+              <a className="map-link" href="https://www.google.com/maps/dir/?api=1&origin=45.2691,27.9576&destination=44.5726,26.0855&travelmode=driving" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
+            </div>
             <div className="hero__card-foot">
               <span>Transfer taxi Brăila ⇄ Otopeni</span>
               <span className="hero__card-time">⏱ ~3h 30 min</span>
