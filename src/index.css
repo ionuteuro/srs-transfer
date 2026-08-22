@@ -114,31 +114,27 @@ a { color: inherit; text-decoration: none; }
 .hero__stats span { color: var(--muted); font-size: 13px; }
 
 .hero__card {
-  background: var(--surface);
-  border: 1px solid rgba(255,255,255,.08);
+  position: relative;
+  height: 340px;
   border-radius: 22px;
-  padding: 34px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 30px 60px rgba(0,0,0,.35);
+  background: #0a1422;
+}
+.routemap { position: absolute; inset: 0; width: 100%; height: 100%; }
+.routemap .leaflet-container { width: 100%; height: 100%; background: #0a1422; font: inherit; }
+.hero__card-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  box-shadow: 0 30px 60px rgba(0,0,0,.35);
+  justify-content: space-between;
+  padding: 14px;
 }
-.flight { position: relative; height: 250px; border-radius: 16px; overflow: hidden; background: #0a1422; border: 1px solid rgba(255,255,255,.08); box-shadow: inset 0 0 40px rgba(0,0,0,.4); }
-.flight::before {
-  content: "";
-  position: absolute;
-  inset: 18% 8%;
-  background: radial-gradient(circle at 30% 70%, rgba(56,189,248,.16), transparent 60%),
-              radial-gradient(circle at 75% 25%, rgba(34,211,238,.14), transparent 60%);
-  filter: blur(6px);
-  border-radius: 50%;
-}
-.map { position: absolute; inset: 0; width: 100%; height: 100%; }
 .taxi-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 4;
+  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -151,100 +147,34 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(135deg, #fde047, #f59e0b);
   box-shadow: 0 6px 16px rgba(245,158,11,.45);
 }
-.node {
-  position: absolute;
-  font-weight: 800;
-  font-size: 14px;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.16);
-  color: var(--text);
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  z-index: 2;
-}
-.node__ping {
-  position: absolute;
-  left: 50%; top: 50%;
-  width: 100%; height: 100%;
-  border-radius: 999px;
-  border: 2px solid var(--primary);
-  transform: translate(-50%,-50%);
-  opacity: 0;
-  pointer-events: none;
-}
-.node__icon { margin-right: 6px; font-size: 15px; display: inline-flex; color: #d7dde6; }
-.node__icon svg { width: 17px; height: 17px; fill: currentColor; }
-.node--braila { left: 2%; bottom: 13%; }
-.node--otp { right: 2%; top: 7%; }
-.node--otp .node__icon { animation: arrive 8s ease-in-out infinite; }
-.flight__time {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .2px;
-  color: var(--muted);
-}
-@keyframes arrive {
-  0%, 50% { transform: scale(1); }
-  54% { transform: scale(1.4); }
-  66%, 100% { transform: scale(1); }
-}
-.node--braila .node__ping { animation: pingBraila 8s ease-in-out infinite; }
-.node--otp .node__ping { animation: pingOtp 8s ease-in-out infinite; }
-.car {
-  position: absolute;
-  width: 38px;
-  height: 38px;
+.hero__card-foot {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  line-height: 1;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,.45)) drop-shadow(0 0 10px rgba(250,204,7,.6));
-  animation: drive 8s cubic-bezier(.45,.05,.55,.95) infinite;
-  z-index: 3;
-}
-@keyframes drive {
-  0%   { left: 14%; top: 86%; transform: translate(-50%,-50%); }
-  6%   { left: 14%; top: 86%; transform: translate(-50%,-50%); }
-  48%  { left: 50%; top: 50%; transform: translate(-50%,-50%); }
-  52%  { left: 86%; top: 14%; transform: translate(-50%,-50%); }
-  60%  { left: 86%; top: 14%; transform: translate(-50%,-50%); }
-  94%  { left: 50%; top: 50%; transform: translate(-50%,-50%); }
-  100% { left: 14%; top: 86%; transform: translate(-50%,-50%); }
-}
-@keyframes pingBraila {
-  0%   { transform: translate(-50%,-50%) scale(1); opacity: .55; }
-  6%   { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
-  7%, 93% { opacity: 0; }
-  94%  { transform: translate(-50%,-50%) scale(1); opacity: .55; }
-  100% { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
-}
-@keyframes pingOtp {
-  0%, 50% { opacity: 0; }
-  52%  { transform: translate(-50%,-50%) scale(1); opacity: .55; }
-  60%  { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
-  61%, 100% { opacity: 0; }
-}
-.flight__caption { position: relative; height: 24px; text-align: center; }
-.cap {
-  position: absolute;
-  left: 0; right: 0;
-  font-weight: 800;
-  font-size: 15px;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(10,20,34,.72);
+  border: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(6px);
   color: var(--text);
-  opacity: 0;
+  font-size: 13px;
+  font-weight: 700;
 }
-.cap--out { animation: capOut 8s ease-in-out infinite; }
-.cap--back { animation: capBack 8s ease-in-out infinite; }
-@keyframes capOut { 0% { opacity: 1 } 46% { opacity: 1 } 56% { opacity: 0 } 100% { opacity: 0 } }
-@keyframes capBack { 0% { opacity: 0 } 58% { opacity: 0 } 64% { opacity: 1 } 96% { opacity: 1 } 100% { opacity: 0 } }
-@media (prefers-reduced-motion: reduce) {
-  .car, .cap--out, .cap--back, .flight__path path, .node__ping { animation: none; }
-  .car { left: 86%; top: 14%; transform: translate(-50%,-50%); }
-  .cap--out { opacity: 1; }
+.hero__card-time { color: var(--muted); }
+.taxi-marker { font-size: 26px; line-height: 34px; text-align: center; filter: drop-shadow(0 3px 4px rgba(0,0,0,.5)); }
+.map-pin { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.map-pin__dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,.15); }
+.map-pin__label { color: #fff; }
+.map-pin__label {
+  background: rgba(10,20,34,.8);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,.15);
 }
 
 /* Sections */
