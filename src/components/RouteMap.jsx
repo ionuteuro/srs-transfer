@@ -62,13 +62,14 @@ export default function RouteMap() {
     pin(BRĂILA, 'Brăila', '#f59e0b')
     pin(OTOPENI, 'Otopeni · OTP', '#38bdf8')
 
-    let route = [BRĂILA, OTOPENI]
+    const route = [BRĂILA, OTOPENI]
     const routeLine = L.polyline(route, {
       color: '#f59e0b',
       weight: 5,
       opacity: 0.95,
       lineCap: 'round',
     }).addTo(map)
+    map.fitBounds(routeLine.getBounds(), { padding: 50 })
 
     const taxi = L.marker(BRĂILA, {
       icon: L.divIcon({
@@ -80,28 +81,10 @@ export default function RouteMap() {
       zIndexOffset: 1000,
     }).addTo(map)
 
-    let cancelled = false
-
-    fetch(
-      `https://router.project-osrm.org/route/v1/driving/${BRĂILA[1]},${BRĂILA[0]};${OTOPENI[1]},${OTOPENI[0]}?overview=full&geometries=geojson`
-    )
-      .then((r) => r.json())
-      .then((data) => {
-        if (cancelled) return
-        const coords = data?.routes?.[0]?.geometry?.coordinates
-        if (coords && coords.length > 1) {
-          route = coords.map((c) => [c[1], c[0]])
-          routeLine.setLatLngs(route)
-          map.fitBounds(routeLine.getBounds(), { padding: 40 })
-        }
-      })
-      .catch(() => {})
-
     const DURATION = 13000
     let raf
     const start = performance.now()
     const frame = (now) => {
-      if (cancelled) return
       const elapsed = (now - start) % (DURATION * 2)
       let p = elapsed / DURATION
       if (p > 1) p = 2 - p
@@ -111,7 +94,6 @@ export default function RouteMap() {
     raf = requestAnimationFrame(frame)
 
     return () => {
-      cancelled = true
       cancelAnimationFrame(raf)
       map.remove()
     }
