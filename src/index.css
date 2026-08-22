@@ -183,25 +183,6 @@ a { color: inherit; text-decoration: none; }
 }
 .node--braila .node__ping { animation: pingBraila 8s ease-in-out infinite; }
 .node--otp .node__ping { animation: pingOtp 8s ease-in-out infinite; }
-.plane {
-  position: absolute;
-  width: 34px;
-  height: 34px;
-  color: #fff;
-  filter: drop-shadow(0 0 10px rgba(56,189,248,.85)) drop-shadow(0 3px 6px rgba(0,0,0,.4));
-  animation: fly 8s cubic-bezier(.45,.05,.55,.95) infinite;
-  z-index: 3;
-}
-.plane svg { width: 100%; height: 100%; fill: url(#routeGrad); }
-@keyframes fly {
-  0%   { left: 16%; top: 76%; transform: translate(-50%,-50%) rotate(215deg); }
-  6%   { left: 16%; top: 76%; transform: translate(-50%,-50%) rotate(215deg); }
-  48%  { left: 47%; top: 43%; transform: translate(-50%,-50%) rotate(20deg); }
-  52%  { left: 78%; top: 16%; transform: translate(-50%,-50%) rotate(34deg); }
-  60%  { left: 78%; top: 16%; transform: translate(-50%,-50%) rotate(34deg); }
-  94%  { left: 47%; top: 43%; transform: translate(-50%,-50%) rotate(202deg); }
-  100% { left: 16%; top: 76%; transform: translate(-50%,-50%) rotate(215deg); }
-}
 @keyframes pingBraila {
   0%   { transform: translate(-50%,-50%) scale(1); opacity: .55; }
   6%   { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
@@ -229,8 +210,7 @@ a { color: inherit; text-decoration: none; }
 @keyframes capOut { 0% { opacity: 1 } 46% { opacity: 1 } 56% { opacity: 0 } 100% { opacity: 0 } }
 @keyframes capBack { 0% { opacity: 0 } 58% { opacity: 0 } 64% { opacity: 1 } 96% { opacity: 1 } 100% { opacity: 0 } }
 @media (prefers-reduced-motion: reduce) {
-  .plane, .cap--out, .cap--back, .flight__path path, .node__ping { animation: none; }
-  .plane { left: 78%; top: 16%; transform: translate(-50%,-50%) rotate(34deg); }
+  .cap--out, .cap--back, .flight__path path, .node__ping { animation: none; }
   .cap--out { opacity: 1; }
 }
 
