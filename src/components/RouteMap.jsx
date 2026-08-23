@@ -61,7 +61,7 @@ export default function RouteMap() {
       }).addTo(map)
 
     pin(BRĂILA, 'Brăila', '#f59e0b')
-    pin(OTOPENI, 'Otopeni · OTP', '#38bdf8')
+    pin(OTOPENI, 'Otopeni · OTP', '#e6edf6')
     L.marker([44.92, 27.02], {
       icon: L.divIcon({ className: 'map-country', html: 'România', iconSize: [0, 0] }),
       interactive: false,
