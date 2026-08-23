@@ -46,9 +46,9 @@ export default function RouteMap() {
       attributionControl: true,
     })
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
       maxZoom: 19,
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      attribution: '&copy; Google',
     }).addTo(map)
 
     const pin = (coords, label, color) =>
