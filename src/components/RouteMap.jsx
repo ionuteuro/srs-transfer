@@ -36,6 +36,7 @@ export default function RouteMap() {
 
   useEffect(() => {
     if (!elRef.current || elRef.current._leaflet_id) return
+    try {
 
     const map = L.map(elRef.current, {
       center: [44.95, 27.0],
@@ -69,7 +70,15 @@ export default function RouteMap() {
       opacity: 0.95,
       lineCap: 'round',
     }).addTo(map)
-    map.fitBounds(routeLine.getBounds(), { padding: 50 })
+    const fitRoute = () => {
+      try {
+        map.invalidateSize()
+        map.fitBounds(routeLine.getBounds(), { padding: [40, 40] })
+      } catch (e) {
+        /* containerul nu are încă dimensiune validă; harta folosește center/zoom explicit */
+      }
+    }
+    setTimeout(fitRoute, 300)
 
     const taxi = L.marker(BRĂILA, {
       icon: L.divIcon({
@@ -96,6 +105,9 @@ export default function RouteMap() {
     return () => {
       cancelAnimationFrame(raf)
       map.remove()
+    }
+    } catch (e) {
+      console.error('RouteMap init error:', e)
     }
   }, [])
 
