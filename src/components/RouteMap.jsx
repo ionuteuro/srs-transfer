@@ -46,7 +46,7 @@ export default function RouteMap() {
       attributionControl: true,
     })
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap &copy; CARTO',
     }).addTo(map)
@@ -62,6 +62,11 @@ export default function RouteMap() {
 
     pin(BRĂILA, 'Brăila', '#f59e0b')
     pin(OTOPENI, 'Otopeni · OTP', '#38bdf8')
+    L.marker([44.92, 27.02], {
+      icon: L.divIcon({ className: 'map-country', html: 'România', iconSize: [0, 0] }),
+      interactive: false,
+      zIndexOffset: -1,
+    }).addTo(map)
 
     const route = [BRĂILA, OTOPENI]
     const routeLine = L.polyline(route, {
