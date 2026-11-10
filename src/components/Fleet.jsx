@@ -1,55 +1,33 @@
 import { vehicles } from '../data/vehicles.js'
 
-const cars = vehicles
+function reserve(id) {
+  sessionStorage.setItem('srs_class', id)
+  document.getElementById('rezerva')?.scrollIntoView({ behavior: 'smooth' })
+}
 
 export default function Fleet() {
-  const reserve = (id) => {
-    sessionStorage.setItem('srs_class', id)
-    document.getElementById('rezerva')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <section className="section" id="flota">
+    <section className="section fleet" id="flota">
       <div className="container">
-        <div className="section__head">
-          <h2>Flota noastră</h2>
-          <p>
-            Categorie standard cu clasă de confort. Alege mașina potrivită
-            pentru transferul tău Brăila – Otopeni dus-întors.
-          </p>
+        <div className="section-heading">
+          <p className="eyebrow">Alegi cum călătorești</p>
+          <h2>Două mașini.<br /><em>Același drum liniștit.</em></h2>
+          <p>Vezi detaliile fiecărei mașini și selectează varianta potrivită pentru cursa ta.</p>
         </div>
-
-        <div className="grid grid--2">
-          {cars.map((c) => (
-            <article className="car" key={c.id}>
-              <span className={`car__badge car__badge--${c.id}`}>{c.cls}</span>
-              <div className="car__logo">
-                <img className="brand__logo" src={c.logo} alt={`Sigla ${c.brand}`} />
-                <span className={`car__model car__model--${c.id}`}>{c.model}</span>
+        <div className="fleet-grid">
+          {vehicles.map((car, index) => (
+            <article className={'fleet-card fleet-card--' + car.id} key={car.id}>
+              <div className="fleet-card__visual">
+                <span className="fleet-card__index">0{index + 1} / FLOTĂ</span>
+                <span className="fleet-card__class">{car.cls}</span>
+                <img src={car.logo} alt={car.brand} />
+                <div className="fleet-card__model">{car.model}</div>
               </div>
-              <div className="car__body">
-                <h3>
-                  {c.brand} {c.model}
-                </h3>
-                <ul className="car__specs">
-                  <li>👥 {c.seats} locuri</li>
-                  <li>🧳 {c.bags} bagaje</li>
-                  <li>⛽ {c.fuel}</li>
-                </ul>
-                <div className="car__tags">
-                  {c.tags.map((t) => (
-                    <span className="chip" key={t}>{t}</span>
-                  ))}
-                </div>
-                <div className="car__price">
-                  <div>
-                    <span className="car__price-val">de la {c.priceDus} RON / segment</span>
-                    <span className="car__price-sub">dus · {c.priceBoth} RON dus-întors</span>
-                  </div>
-                  <button className="btn btn--primary" onClick={() => reserve(c.id)}>
-                    Rezervă
-                  </button>
-                </div>
+              <div className="fleet-card__body">
+                <div className="fleet-card__title"><div><span className="eyebrow">{car.cls} · {car.fuel}</span><h3>{car.brand} {car.model}</h3></div><span className="fleet-card__price">{car.priceDus} <small>RON / sens</small></span></div>
+                <div className="fleet-card__specs"><span>♙ {car.seats} locuri</span><span>▱ {car.bags} bagaje</span></div>
+                <div className="chip-row">{car.tags.map((tag) => <span className="chip" key={tag}>{tag}</span>)}</div>
+                <button className="fleet-card__link" type="button" onClick={() => reserve(car.id)}>Alege mașina <span aria-hidden="true">↗</span></button>
               </div>
             </article>
           ))}

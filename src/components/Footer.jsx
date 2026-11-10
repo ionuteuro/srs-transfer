@@ -1,18 +1,11 @@
 export default function Footer() {
-  const year = new Date().getFullYear()
   return (
-    <footer className="footer">
-      <div className="container footer__inner">
-        <div className="logo">
-          <span className="logo__mark">SRS</span>
-          <span className="logo__text">Transfer</span>
-        </div>
-        <p className="footer__copy">© {year} SRS Transfer · Transfer aeroport Otopeni dus-întors</p>
-        <p className="footer__small">Confort · Siguranță · Preț fix</p>
-        <a className="footer__admin" href="/admin">Acces admin</a>
-        <a className="footer__link" href="https://github.com/ionuteuro/srs-transfer" target="_blank" rel="noopener">
-          Vezi codul pe GitHub
-        </a>
+    <footer className="site-footer">
+      <div className="container site-footer__inner">
+        <a className="brand brand--footer" href="#top"><span className="brand__mark">S</span><span className="brand__name">SRS <small>TRANSFER</small></span></a>
+        <span>Brăila <i>↔</i> Aeroportul Otopeni</span>
+        <span>© {new Date().getFullYear()} SRS Transfer</span>
+        <a className="site-footer__admin" href="/admin">Admin</a>
       </div>
     </footer>
   )

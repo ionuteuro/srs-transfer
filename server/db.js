@@ -25,12 +25,20 @@ db.exec(`
     departTime TEXT,
     returnDate TEXT,
     returnTime TEXT,
+    flightOut TEXT,
+    flightBack TEXT,
     pickup TEXT,
+    notes TEXT,
     amount REAL,
     details TEXT,
     status TEXT DEFAULT 'in_asteptare',
     createdAt TEXT
   );
 `)
+
+const columns = new Set(db.prepare('PRAGMA table_info(appointments)').all().map((column) => column.name))
+for (const [name, type] of [['flightOut', 'TEXT'], ['flightBack', 'TEXT'], ['notes', 'TEXT']]) {
+  if (!columns.has(name)) db.exec('ALTER TABLE appointments ADD COLUMN ' + name + ' ' + type)
+}
 
 export default db

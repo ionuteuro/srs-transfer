@@ -1,53 +1,26 @@
-const plans = [
-  {
-    name: 'Doar dus',
-    price: '800',
-    note: 'Un segment · Brăila → Otopeni',
-    features: ['Preluare la ușă', 'Mașină confortabilă', 'Preț fix'],
-    highlight: false,
-  },
-  {
-    name: 'Dus-întors',
-    price: '1600',
-    note: '2 segmente · cea mai aleasă opțiune',
-    features: ['Ambele sensuri', 'Urmărire zbor', 'Așteptare gratuită', 'Reducere pachet'],
-    highlight: true,
-  },
-  {
-    name: 'Business',
-    price: '2200',
-    note: 'Confort premium dus-întors',
-    features: ['Mașină premium', 'Șofer dedicat', 'Stație încărcare', 'Apa & wifi'],
-    highlight: false,
-  },
-]
+import { vehicles } from '../data/vehicles.js'
 
 export default function Pricing() {
   return (
-    <section className="section section--alt" id="tarife">
-      <div className="container">
-        <div className="section__head">
-          <h2>Tarife transparente</h2>
-          <p>Prețuri fixe, fără suprataxe ascunse. Tarif: <strong>800 lei / segment</strong> (un sens). Dus-întors = 2 segmente.</p>
+    <section className="section pricing" id="tarife">
+      <div className="container pricing__inner">
+        <div className="pricing__intro">
+          <p className="eyebrow">Fără calcule la final</p>
+          <h2>Știi tariful<br /><em>înainte să pleci.</em></h2>
+          <p>Prețul cursei este afișat în formular înainte de trimiterea solicitării. Un loc suplimentar peste primele patru adaugă 10 RON.</p>
+          <a className="text-link" href="#rezerva">Calculează cursa <span aria-hidden="true">→</span></a>
         </div>
-        <div className="grid grid--3">
-          {plans.map((p) => (
-            <article className={`price ${p.highlight ? 'price--hot' : ''}`} key={p.name}>
-              {p.highlight && <span className="price__tag">Popular</span>}
-              <h3>{p.name}</h3>
-              <p className="price__note">{p.note}</p>
-              <div className="price__amount">
-                <span className="price__currency">RON</span>
-                <span className="price__value">{p.price}</span>
-              </div>
-              <ul className="price__features">
-                {p.features.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
-              </ul>
-              <a className="btn btn--primary price__btn" href="#rezerva">Rezervă</a>
+        <div className="pricing__cards">
+          {vehicles.map((car) => (
+            <article className="rate-card" key={car.id}>
+              <div className="rate-card__top"><span>{car.brand} {car.model}</span><span>{car.cls}</span></div>
+              <div className="rate-card__price"><strong>{car.priceDus}</strong><span>RON / un sens</span></div>
+              <div className="rate-card__rule" />
+              <div className="rate-card__return"><span>Dus-întors</span><strong>{car.priceBoth} RON</strong></div>
+              <a href="#rezerva">Alege data <span aria-hidden="true">↗</span></a>
             </article>
           ))}
+          <p className="pricing__note">Tariful afișat acoperă până la 4 pasageri. Capacitate maximă: 5 locuri.</p>
         </div>
       </div>
     </section>

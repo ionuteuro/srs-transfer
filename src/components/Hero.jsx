@@ -1,44 +1,56 @@
-import RouteMap from './RouteMap'
-
 export default function Hero() {
   return (
     <section className="hero" id="top">
       <div className="container hero__inner">
-        <div className="hero__content">
-          <span className="badge">Transfer taxi aeroport Brăila – Otopeni · dus-întors</span>
-          <h1>
-            Ajungi la <span className="accent">Otopeni</span> și înapoi la
-            <span className="accent"> Brăila</span>, fără griji.
-          </h1>
-          <p className="lead">
-            SRS Transfer te preia din Brăila, te duce la Aeroportul Henri
-            Coandă (Otopeni) și te aduce înapoi la sosire — la un preț fix, cu
-            șofer punctual și mașină confortabilă.
+        <div className="hero__copy">
+          <p className="eyebrow"><span className="eyebrow__dot" /> Transfer privat · Brăila ↔ Otopeni</p>
+          <h1>Tu te ocupi de călătorie. <em>Noi de drum.</em></h1>
+          <p className="hero__lead">
+            Transfer direct între Brăila și Aeroportul Otopeni, cu preluare de la adresă și tarif stabilit înainte de plecare.
           </p>
           <div className="hero__actions">
-            <a className="btn btn--primary" href="#rezerva">Rezervă cursa</a>
-            <a className="btn btn--ghost" href="#tarife">Vezi tarifele</a>
+            <a className="button button--primary" href="#rezerva">Alege data cursei <span aria-hidden="true">↘</span></a>
+            <a className="text-link" href="#tarife">Vezi tarifele <span aria-hidden="true">→</span></a>
           </div>
-          <ul className="hero__stats">
-            <li><strong>24/7</strong><span>Disponibil</span></li>
-            <li><strong>100%</strong><span>Preț fix</span></li>
-            <li><strong>15 min</strong><span>Așteptare gratuită</span></li>
-          </ul>
+          <div className="hero__trust">
+            <span><b>01</b> Preluare la adresă</span>
+            <span><b>02</b> Tarif clar</span>
+            <span><b>03</b> Dus sau dus-întors</span>
+          </div>
         </div>
-        <div className="hero__card">
-          <RouteMap />
-          <div className="hero__card-overlay">
-            <div className="hero__card-top">
-              <span className="taxi-badge">🚕 TAXI</span>
-              <a className="map-link" href="https://www.google.com/maps/dir/?api=1&origin=45.2691,27.9576&destination=44.5726,26.0855&travelmode=driving" target="_blank" rel="noopener noreferrer">📍 Google Maps</a>
-            </div>
-            <div className="hero__card-foot">
-              <span>Transfer taxi Brăila ⇄ Otopeni</span>
-              <span className="hero__card-time">⏱ ~3h 30 min</span>
-            </div>
+
+        <div className="route-card" aria-label="Traseu Brăila către Aeroportul Otopeni">
+          <div className="route-card__top">
+            <div><span className="eyebrow">Călătorie fără ocolișuri</span><strong>Brăila <span>→</span> Otopeni</strong></div>
+            <span className="route-card__stamp">SRS<br />01</span>
+          </div>
+          <div className="route-visual">
+            <div className="route-visual__wash route-visual__wash--one" />
+            <div className="route-visual__wash route-visual__wash--two" />
+            <svg viewBox="0 0 540 250" role="img" aria-label="Ilustrație stilizată a traseului">
+              <path className="route-visual__road" d="M42 187 C114 173 110 102 191 119 S283 190 345 128 S411 61 497 58" />
+              <path className="route-visual__line" d="M42 187 C114 173 110 102 191 119 S283 190 345 128 S411 61 497 58" />
+              <circle className="route-visual__point" cx="42" cy="187" r="8" />
+              <circle className="route-visual__point route-visual__point--end" cx="497" cy="58" r="8" />
+              <g className="route-visual__car" transform="translate(260 125) rotate(-16)">
+                <rect x="-30" y="-12" width="60" height="24" rx="9" />
+                <path d="M-16 -12 L-9 -23 H13 L22 -12" />
+                <circle cx="-17" cy="13" r="5" /><circle cx="18" cy="13" r="5" />
+              </g>
+            </svg>
+            <span className="route-visual__label route-visual__label--start">BRĂILA</span>
+            <span className="route-visual__label route-visual__label--end">AEROPORT OTP</span>
+            <span className="route-visual__north">N<br />↑</span>
+          </div>
+          <div className="route-card__bottom">
+            <div><span>Preluare</span><strong>De la adresa ta</strong></div>
+            <div className="route-card__separator" />
+            <div><span>Destinație</span><strong>Henri Coandă · OTP</strong></div>
+            <a href="#rezerva" aria-label="Rezervă transferul">↗</a>
           </div>
         </div>
       </div>
+      <div className="hero__edge" aria-hidden="true">DRUMUL TĂU, ÎN RITMUL TĂU</div>
     </section>
   )
 }

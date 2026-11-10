@@ -1,40 +1,37 @@
 import { useState } from 'react'
 
+const links = [
+  { href: '#servicii', label: 'Servicii' },
+  { href: '#flota', label: 'Flota' },
+  { href: '#tarife', label: 'Tarife' },
+]
+
 export default function Header() {
   const [open, setOpen] = useState(false)
-  const links = [
-    { href: '#servicii', label: 'Servicii' },
-    { href: '#tarife', label: 'Tarife' },
-    { href: '#rezerva', label: 'Rezervă' },
-    { href: '#contact', label: 'Contact' },
-  ]
-
   return (
-    <header className="header">
-      <div className="container header__inner">
-        <a href="#top" className="logo">
-          <span className="logo__mark">SRS</span>
-          <span className="logo__text">Transfer</span>
+    <header className="site-header">
+      <div className="container site-header__inner">
+        <a className="brand" href="#top" aria-label="SRS Transfer, pagina principală">
+          <span className="brand__mark">S</span>
+          <span className="brand__name">SRS <small>TRANSFER</small></span>
         </a>
-
-        <nav className={`nav ${open ? 'nav--open' : ''}`}>
-          {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
-              {l.label}
-            </a>
+        <nav className={'site-nav' + (open ? ' site-nav--open' : '')} aria-label="Navigare principală">
+          {links.map((link) => (
+            <a key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</a>
           ))}
-          <a className="btn btn--primary nav__cta" href="#rezerva" onClick={() => setOpen(false)}>
-            Rezervă acum
+          <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
+          <a className="button button--small button--dark site-nav__cta" href="#rezerva" onClick={() => setOpen(false)}>
+            Rezervă cursa <span aria-hidden="true">↗</span>
           </a>
         </nav>
-
         <button
-          className="burger"
-          aria-label="Meniu"
+          className="menu-button"
+          type="button"
+          aria-label={open ? 'Închide meniul' : 'Deschide meniul'}
           aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpen((value) => !value)}
         >
-          <span /><span /><span />
+          <span /><span />
         </button>
       </div>
     </header>

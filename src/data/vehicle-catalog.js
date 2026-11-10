@@ -1,0 +1,26 @@
+export const vehicles = [
+  {
+    id: 'logan',
+    brand: 'Dacia',
+    model: 'Logan',
+    cls: 'Standard',
+    seats: 5,
+    bags: 2,
+    fuel: 'Benzină',
+    priceDus: 800,
+    priceBoth: 1600,
+    tags: ['5 locuri', 'Climatizare', 'Portbagaj generos'],
+  },
+  {
+    id: 'corolla',
+    brand: 'Toyota',
+    model: 'Corolla',
+    cls: 'Confort',
+    seats: 5,
+    bags: 3,
+    fuel: 'Hybrid',
+    priceDus: 800,
+    priceBoth: 1600,
+    tags: ['5 locuri', 'Hybrid', 'Confort'],
+  },
+]

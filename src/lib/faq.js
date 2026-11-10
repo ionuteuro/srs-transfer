@@ -1,71 +1,57 @@
 const FAQ = [
   {
     keywords: ['pret', 'costa', 'tarif', 'ron', 'preturi', 'valoare'],
-    answer:
-      'Tariful este de 800 RON / segment (un sens). Dus-întors înseamnă 2 segmente = 1600 RON, pentru ambele mașini (Dacia Logan și Toyota Corolla). Prețul e fix, fără suprataxe.',
-  },
-  {
-    keywords: ['ramburs', 'return', 'bani inapoi', 'anul', 'anulez'],
-    answer:
-      'Politica de rambursare: 100% dacă anulezi cu minim 24h înainte, 50% între 12–24h, iar sub 12h e nereturnabil (exceptând anularea zborului, dovedită).',
+    answer: 'Tariful este de 800 RON pe sens și 1600 RON dus-întors, pentru Dacia Logan sau Toyota Corolla. Al cincilea pasager adaugă 10 RON.',
   },
   {
     keywords: ['dus intors', 'dus-întors', 'retur', 'intoarcere', 'întors'],
-    answer:
-      'Oferim transfer aeroport Brăila – Otopeni dus-întors la pachet, cu preț redus față de cursele separate. Te aducem înapoi la sosirea zborului.',
+    answer: 'Poți trimite o solicitare dus-întors cu ambele date în același formular. Tariful afișat pentru dus-întors este 1600 RON.',
   },
   {
     keywords: ['masina', 'masini', 'logan', 'corolla', 'dacia', 'toyota', 'flota', 'model'],
-    answer:
-      'Flota: Dacia Logan (clasa Standard, 5 locuri) și Toyota Corolla Sedan (clasa Confort, hybrid, 5 locuri). Ambele cu climatizare.',
+    answer: 'Flota include Dacia Logan, clasa Standard, și Toyota Corolla, clasa Confort. Ambele au maximum 5 locuri.',
   },
   {
     keywords: ['plata', 'card', 'achit', 'plateste', 'plată'],
-    answer:
-      'Plata se face exclusiv cu cardul (Visa / Mastercard), în siguranță, prin Netopia. Introduci datele cardului la finalul rezervării.',
+    answer: 'Formularul trimite o solicitare și nu încasează o plată online. Ora cursei se confirmă după verificarea disponibilității.',
   },
   {
-    keywords: ['program', 'orar', 'nonstop', '24', 'disponibil', 'cand'],
-    answer:
-      'Suntem disponibili 24/7, inclusiv weekend și sărbători. Urmărim zborul și ajustăm ora de preluare la sosire.',
+    keywords: ['program', 'orar', 'disponibil', 'cand', 'când'],
+    answer: 'Disponibilitatea cursei se verifică după ce trimiți data și ora dorite. Poți include numărul zborului în formular.',
   },
   {
     keywords: ['rezerv', 'comand', 'fac', 'cum'],
-    answer:
-      'Rezervi din formularul de pe site: alegi clasa și locurile, completezi datele cursei și plătești cu cardul. E simplu și rapid.',
+    answer: 'Alege tipul cursei, datele din calendar și mașina, apoi completează datele de contact. Solicitarea apare în calendarul de administrare pentru confirmare.',
   },
   {
     keywords: ['otopeni', 'aeroport', 'henri coanda', 'otp', 'unde'],
-    answer:
-      'Te preluăm din Brăila și te ducem la Aeroportul Internațional Henri Coandă (OTP / Otopeni), apoi te aducem înapoi la Brăila.',
+    answer: 'Serviciul este un transfer privat între Brăila și Aeroportul Internațional Henri Coandă (OTP / Otopeni).',
   },
   {
     keywords: ['contact', 'telefon', 'sun', 'whatsapp', 'email'],
-    answer:
-      'Ne găsești la telefon +40 700 000 000, pe WhatsApp sau pe contact@srs-transfer.ro.',
+    answer: 'Trimite detaliile cursei prin formularul de rezervare. Solicitarea ajunge în calendarul de administrare pentru confirmare.',
   },
   {
     keywords: ['locuri', 'persoane', 'pasager', 'copil', 'bagaj'],
-    answer:
-      'Fiecare mașină are 5 locuri. Prețul include până la 4 locuri; al 5-lea adaugă 10 RON. Poți menționa bagaje voluminoase sau scaun de copil în observații.',
+    answer: 'Mașinile au maximum 5 locuri. Tariful include până la 4 pasageri, iar al cincilea adaugă 10 RON. Poți trece detalii despre bagaje sau scaun de copil în observații.',
+  },
+  {
+    keywords: ['anul', 'anulez', 'ramburs', 'bani inapoi'],
+    answer: 'Politica afișată în prezent: 100% la anulare cu minimum 24h înainte, 50% între 12 și 24h și 0% sub 12h (exceptând anularea zborului dovedită).',
   },
 ]
 
-const DEFAULT =
-  'Sunt asistentul SRS Transfer. Te pot ajuta cu prețuri, mașini (Dacia Logan / Toyota Corolla), plata cu cardul, rambursarea banilor sau programul 24/7. Ce vrei să știi?'
+const DEFAULT = 'Sunt asistentul SRS Transfer. Te pot ajuta cu tarifele, flota, ruta și pașii de rezervare.'
 
 export function getAnswer(text) {
-  const q = normalize(String(text || ''))
-  if (!q.trim()) return DEFAULT
+  const question = normalize(String(text || ''))
+  if (!question.trim()) return DEFAULT
   for (const item of FAQ) {
-    if (item.keywords.some((k) => q.includes(normalize(k)))) return item.answer
+    if (item.keywords.some((keyword) => question.includes(normalize(keyword)))) return item.answer
   }
   return DEFAULT
 }
 
-function normalize(s) {
-  return s
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
+function normalize(value) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 }

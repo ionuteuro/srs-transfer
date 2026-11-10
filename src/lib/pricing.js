@@ -1,4 +1,4 @@
-import { vehicles } from '../data/vehicles.js'
+import { vehicles } from '../data/vehicle-catalog.js'
 
 export function priceFor(vehicleId, trip, seats = 1) {
   const car = vehicles.find((v) => v.id === vehicleId) || vehicles[0]

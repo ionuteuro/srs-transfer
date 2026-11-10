@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import DateCalendar, { formatDate } from './DateCalendar.jsx'
 import { vehicles } from '../data/vehicles.js'
 import { priceFor } from '../lib/pricing.js'
-import { luhnOk, expiryOk, phoneOk } from '../lib/validators.js'
+import { phoneOk } from '../lib/validators.js'
 
-const initial = {
+const initialForm = {
   name: '',
   phone: '',
   email: '',
@@ -18,153 +19,101 @@ const initial = {
 }
 
 export default function Booking() {
-  const [vehicle, setVehicle] = useState(
-    () => sessionStorage.getItem('srs_class') || 'logan'
-  )
+  const [vehicle, setVehicle] = useState(() => sessionStorage.getItem('srs_class') || 'logan')
   const [trip, setTrip] = useState('dusIntors')
   const [seats, setSeats] = useState(1)
-  const [form, setForm] = useState(initial)
-  const [card, setCard] = useState({ number: '', name: '', expiry: '', cvc: '' })
-  const [agree, setAgree] = useState(false)
+  const [form, setForm] = useState(initialForm)
   const [errors, setErrors] = useState({})
-  const [phase, setPhase] = useState('form') // form | processing | done
+  const [phase, setPhase] = useState('form')
+  const [request, setRequest] = useState(null)
+  const [submitError, setSubmitError] = useState('')
 
-  const car = vehicles.find((v) => v.id === vehicle)
+  const car = vehicles.find((item) => item.id === vehicle) || vehicles[0]
   const { base, extraSeats, total } = priceFor(vehicle, trip, seats)
 
-  const update = (e) => {
-    const { name, value } = e.target
-    setForm((f) => ({ ...f, [name]: value }))
+  const update = (event) => {
+    const { name, value } = event.target
+    setForm((current) => ({ ...current, [name]: value }))
+    setErrors((current) => ({ ...current, [name]: '' }))
   }
-  const updateCard = (e) => {
-    const { name, value } = e.target
-    setCard((c) => ({ ...c, [name]: value }))
+
+  const updateTrip = (value) => {
+    setTrip(value)
+    if (value === 'dus') {
+      setForm((current) => ({ ...current, returnDate: '', returnTime: '', flightBack: '' }))
+      setErrors((current) => ({ ...current, returnDate: '', returnTime: '' }))
+    }
+  }
+
+  const updateDates = (departDate, returnDate) => {
+    setForm((current) => ({ ...current, departDate, returnDate, returnTime: returnDate ? current.returnTime : '', flightBack: returnDate ? current.flightBack : '' }))
+    setErrors((current) => ({ ...current, departDate: '', returnDate: '' }))
   }
 
   const validate = () => {
-    const err = {}
-    if (!form.name.trim()) err.name = 'Completează numele'
-    if (!phoneOk(form.phone)) err.phone = 'Telefon invalid (ex. 07xx xxx xxx)'
-    if (!form.pickup.trim()) err.pickup = 'Adaugă adresa de preluare'
-    if (!form.departDate) err.departDate = 'Alege data plecării'
-    if (!form.departTime) err.departTime = 'Alege ora plecării'
+    const next = {}
+    if (!form.name.trim()) next.name = 'Completează numele.'
+    if (!phoneOk(form.phone)) next.phone = 'Introdu un număr de telefon valid.'
+    if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) next.email = 'Verifică adresa de email.'
+    if (!form.pickup.trim()) next.pickup = 'Adaugă adresa de preluare.'
+    if (!form.departDate) next.departDate = 'Selectează data plecării din calendar.'
+    if (!form.departTime) next.departTime = 'Alege ora plecării.'
     if (trip === 'dusIntors') {
-      if (!form.returnDate) err.returnDate = 'Alege data întoarcerii'
-      if (!form.returnTime) err.returnTime = 'Alege ora întoarcerii'
+      if (!form.returnDate) next.returnDate = 'Selectează data întoarcerii din calendar.'
+      if (!form.returnTime) next.returnTime = 'Alege ora întoarcerii.'
+      if (form.departDate && form.returnDate && form.returnDate < form.departDate) next.returnDate = 'Întoarcerea trebuie să fie după plecare.'
+      if (form.departDate && form.returnDate === form.departDate && form.departTime && form.returnTime && form.returnTime <= form.departTime) next.returnTime = 'Ora întoarcerii trebuie să fie după plecare.'
     }
-    if (!luhnOk(card.number)) err.number = 'Număr de card invalid'
-    if (!card.name.trim()) err.cname = 'Numele de pe card'
-    if (!expiryOk(card.expiry)) err.expiry = 'Expirare invalidă (LL/AA)'
-    if (!/^\d{3,4}$/.test(card.cvc)) err.cvc = 'CVC invalid'
-    if (!agree) err.agree = 'Trebuie să accepți politica de rambursare'
-    setErrors(err)
-    return Object.keys(err).length === 0
+    setErrors(next)
+    return Object.keys(next).length === 0
   }
 
-  const submit = async (e) => {
-    e.preventDefault()
+  const submit = async (event) => {
+    event.preventDefault()
+    setSubmitError('')
     if (!validate()) return
-    setPhase('processing')
-    const orderId = `SRS-${Date.now()}`
+    setPhase('sending')
     const appointment = {
-      orderId,
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      pickup: form.pickup,
+      ...form,
       vehicle,
       trip,
       seats,
-      departDate: form.departDate,
-      departTime: form.departTime,
-      returnDate: form.returnDate,
-      returnTime: form.returnTime,
       amount: total,
-      details: `Transfer aeroport Brăila–Otopeni · ${car.brand} ${car.model} · ${trip === 'dusIntors' ? 'dus-întors' : 'doar dus'} · ${seats} locuri`,
+      details: 'Transfer Brăila–Otopeni · ' + car.brand + ' ' + car.model + ' · ' + (trip === 'dusIntors' ? 'dus-întors' : 'doar dus'),
     }
     try {
-      await fetch('/api/appointments', {
+      const response = await fetch('/api/appointments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(appointment),
-      }).catch(() => {})
-    } catch {
-      /* salvarea e best-effort; plata continuă */
-    }
-    const payload = {
-      amount: total,
-      orderId,
-      clientName: form.name,
-      clientPhone: form.phone,
-      clientEmail: '',
-      details: appointment.details,
-    }
-    try {
-      const res = await fetch('/api/create-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
       })
-      const data = await res.json()
-      if (data.redirect && data.fields) {
-        const formEl = document.createElement('form')
-        formEl.method = 'POST'
-        formEl.action = data.redirect
-        for (const [k, v] of Object.entries(data.fields)) {
-          const input = document.createElement('input')
-          input.type = 'hidden'
-          input.name = k
-          input.value = v
-          formEl.appendChild(input)
-        }
-        document.body.appendChild(formEl)
-        formEl.submit()
-        return
-      }
-      setTimeout(() => setPhase('done'), 1400)
-    } catch (err) {
-      console.error(err)
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Nu am putut trimite solicitarea.')
+      setRequest(data)
+      setPhase('sent')
+    } catch (error) {
+      setSubmitError(error.message || 'Eroare la trimitere. Încearcă din nou.')
       setPhase('form')
-      alert('Eroare la inițierea plății. Încearcă din nou.')
     }
   }
 
-  if (phase === 'done') {
+  if (phase === 'sent' && request) {
     return (
-      <section className="section" id="rezerva">
+      <section className="section booking-section" id="rezerva">
         <div className="container">
-          <div className="done">
-            <div className="done__icon">✅</div>
-            <h2>Plată cu cardul confirmată!</h2>
-            <p>
-              Rezervarea ta pentru <strong>{car.brand} {car.model}</strong> (
-              {trip === 'dusIntors' ? 'dus-întors' : 'doar dus'}) a fost
-              plasată și achitată cu cardul.
-            </p>
-            <ul className="done__summary">
-              <li><span>Client</span><strong>{form.name}</strong></li>
-              <li><span>Telefon</span><strong>{form.phone}</strong></li>
-              {form.email && <li><span>Email</span><strong>{form.email}</strong></li>}
-              <li><span>Preluare</span><strong>{form.pickup}</strong></li>
-              <li><span>Locuri</span><strong>{seats}</strong></li>
-              <li><span>Total plată</span><strong>{total} RON</strong></li>
-            </ul>
-            <p className="done__note">
-              Banii au fost luați de pe card. Rambursare: 100% dacă anulezi cu
-              min. 24h înainte, 50% între 12–24h, nereturnabil sub 12h (exceptând
-              anularea zborului, dovedită).
-            </p>
-            <button
-              className="btn btn--ghost"
-              onClick={() => {
-                setForm(initial)
-                setCard({ number: '', name: '', expiry: '', cvc: '' })
-                setAgree(false)
-                setPhase('form')
-              }}
-            >
-              O nouă rezervare
-            </button>
+          <div className="booking-success">
+            <div className="booking-success__mark">✓</div>
+            <p className="eyebrow">Solicitare trimisă</p>
+            <h2>Am primit detaliile <em>călătoriei.</em></h2>
+            <p className="booking-success__lead">Cererea <strong>{request.orderId}</strong> a fost adăugată. Ora cursei se confirmă după verificarea disponibilității.</p>
+            <div className="booking-success__summary">
+              <span>{trip === 'dusIntors' ? 'Dus-întors' : 'Doar dus'}</span>
+              <strong>{formatDate(form.departDate)}{trip === 'dusIntors' ? ' — ' + formatDate(form.returnDate) : ''}</strong>
+              <span>{car.brand} {car.model} · {seats} {seats === 1 ? 'pasager' : 'pasageri'}</span>
+              <strong>{total} RON</strong>
+            </div>
+            <p className="booking-success__note">Nu s-a efectuat nicio plată online prin acest formular.</p>
+            <button className="button button--dark" type="button" onClick={() => { setRequest(null); setForm(initialForm); setPhase('form') }}>Solicită alt transfer <span aria-hidden="true">↗</span></button>
           </div>
         </div>
       </section>
@@ -172,178 +121,76 @@ export default function Booking() {
   }
 
   return (
-    <section className="section" id="rezerva">
+    <section className="section booking-section" id="rezerva">
       <div className="container">
-        <div className="section__head">
-          <h2>Rezervă transferul</h2>
-          <p>Transfer aeroport <strong>Brăila – Otopeni</strong>. Alege clasa, locurile și data. Plata se face doar cu cardul.</p>
+        <div className="section-heading section-heading--booking">
+          <div><p className="eyebrow">Planifică transferul</p><h2>Începem cu <em>data.</em></h2></div>
+          <p>Alege zilele din calendar, completează detaliile cursei și trimite solicitarea. Tariful estimat este vizibil înainte de trimitere.</p>
         </div>
 
-        <div className="booking">
-          <form className="form" onSubmit={submit} noValidate>
-            <h3 className="form__title">1 · Alege clasa și locurile</h3>
-            <div className="vehicles">
-              {vehicles.map((v) => (
-                <button
-                  type="button"
-                  key={v.id}
-                  className={`vehicle ${vehicle === v.id ? 'vehicle--on' : ''}`}
-                  onClick={() => setVehicle(v.id)}
-                >
-                  <span className="vehicle__logo"><img className="brand__logo brand__logo--sm" src={v.logo} alt={`Sigla ${v.brand}`} /></span>
-                  <span className="vehicle__name">{v.brand} {v.model}</span>
-                  <span className="vehicle__cls">{v.cls}</span>
-                  <span className="vehicle__price">
-                    {trip === 'dusIntors' ? v.priceBoth : v.priceDus} RON
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            <div className="form__row form__row--3">
-              <label>Tip cursă
-                <select value={trip} onChange={(e) => setTrip(e.target.value)}>
-                  <option value="dusIntors">Dus-întors</option>
-                  <option value="dus">Doar dus</option>
-                </select>
-              </label>
-              <label>Număr locuri
-                <select value={seats} onChange={(e) => setSeats(Number(e.target.value))}>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>{n}{n === 5 ? ' (max)' : ''}</option>
-                  ))}
-                </select>
-              </label>
-              <label> &nbsp;
-                <span className="vehicle__hint">Prețul include până la 4 locuri</span>
-              </label>
-            </div>
-
-            <h3 className="form__title">2 · Detaliile cursei</h3>
-            <div className="form__row form__row--3">
-              <label>Nume complet
-                <input name="name" value={form.name} onChange={update} placeholder="Ion Popescu" />
-                {errors.name && <em className="err">{errors.name}</em>}
-              </label>
-              <label>Telefon
-                <input name="phone" value={form.phone} onChange={update} placeholder="07xx xxx xxx" />
-                {errors.phone && <em className="err">{errors.phone}</em>}
-              </label>
-              <label>Email (opțional)
-                <input name="email" type="email" value={form.email} onChange={update} placeholder="tu@email.ro" />
-              </label>
-            </div>
-            <label className="full">Adresă preluare (Brăila)
-              <input name="pickup" value={form.pickup} onChange={update}               placeholder="Strada, nr, localitate Brăila" />
-              {errors.pickup && <em className="err">{errors.pickup}</em>}
-            </label>
-
-            <fieldset className="leg">
-              <legend>Dus · Brăila → Otopeni</legend>
-              <div className="form__row form__row--3">
-                <label>Data plecării
-                  <input type="date" name="departDate" value={form.departDate} onChange={update} />
-                  {errors.departDate && <em className="err">{errors.departDate}</em>}
-                </label>
-                <label>Ora plecării
-                  <input type="time" name="departTime" value={form.departTime} onChange={update} />
-                  {errors.departTime && <em className="err">{errors.departTime}</em>}
-                </label>
-                <label>Zbor (opțional)
-                  <input name="flightOut" value={form.flightOut} onChange={update} placeholder="ex. W6 3102" />
-                </label>
+        <form className="booking-layout" onSubmit={submit} noValidate>
+          <div className="booking-main">
+            <section className="booking-panel">
+              <div className="booking-panel__heading"><span className="step-index">01</span><div><h3>Tipul cursei</h3><p>O singură direcție sau dus-întors.</p></div></div>
+              <div className="trip-switch" role="group" aria-label="Tipul cursei">
+                <button className={trip === 'dusIntors' ? 'is-active' : ''} type="button" onClick={() => updateTrip('dusIntors')}><span>↔</span><span><strong>Dus-întors</strong><small>Brăila · Otopeni · Brăila</small></span></button>
+                <button className={trip === 'dus' ? 'is-active' : ''} type="button" onClick={() => updateTrip('dus')}><span>→</span><span><strong>Doar dus</strong><small>Brăila către Otopeni</small></span></button>
               </div>
-            </fieldset>
+            </section>
 
-            {trip === 'dusIntors' && (
-              <fieldset className="leg">
-                <legend>Întors · Otopeni → Brăila</legend>
-                <div className="form__row form__row--3">
-                  <label>Data sosirii
-                    <input type="date" name="returnDate" value={form.returnDate} onChange={update} />
-                    {errors.returnDate && <em className="err">{errors.returnDate}</em>}
-                  </label>
-                  <label>Ora sosirii
-                    <input type="time" name="returnTime" value={form.returnTime} onChange={update} />
-                    {errors.returnTime && <em className="err">{errors.returnTime}</em>}
-                  </label>
-                  <label>Zbor (opțional)
-                    <input name="flightBack" value={form.flightBack} onChange={update} placeholder="ex. W6 3103" />
-                  </label>
-                </div>
-              </fieldset>
-            )}
-
-            <label className="full">Observații (opțional)
-              <textarea name="notes" rows="2" value={form.notes} onChange={update} placeholder="Bagaje voluminoase, scaun copil etc." />
-            </label>
-
-            <h3 className="form__title">3 · Plată cu cardul</h3>
-            <div className="payonly">Plată acceptată exclusiv cu cardul (Visa / Mastercard).</div>
-            <div className="form__row form__row--2">
-              <label>Număr card
-                <input name="number" inputMode="numeric" value={card.number} onChange={updateCard} placeholder="0000 0000 0000 0000" />
-                {errors.number && <em className="err">{errors.number}</em>}
-              </label>
-              <label>Nume pe card
-                <input name="name" value={card.name} onChange={updateCard} placeholder="ION POPESCU" />
-                {errors.cname && <em className="err">{errors.cname}</em>}
-              </label>
-            </div>
-            <div className="form__row form__row--2">
-              <label>Expirare (LL/AA)
-                <input name="expiry" value={card.expiry} onChange={updateCard} placeholder="08/29" />
-                {errors.expiry && <em className="err">{errors.expiry}</em>}
-              </label>
-              <label>CVC
-                <input name="cvc" inputMode="numeric" value={card.cvc} onChange={updateCard} placeholder="123" />
-                {errors.cvc && <em className="err">{errors.cvc}</em>}
-              </label>
-            </div>
-
-            <div className="refund">
-              <h4>Politica de rambursare</h4>
-              <ul>
-                <li><strong>100%</strong> – anulare cu minim 24h înainte de cursă</li>
-                <li><strong>50%</strong> – între 12h și 24h înainte</li>
-                <li><strong>0%</strong> – sub 12h (exceptând anularea zborului, dovedită)</li>
-              </ul>
-              <label className="check">
-                <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-                Am citit și accept politica de rambursare
-              </label>
-              {errors.agree && <em className="err">{errors.agree}</em>}
-            </div>
-
-            <button className="btn btn--primary form__submit" type="submit" disabled={phase === 'processing'}>
-              {phase === 'processing' ? 'Se procesează plata…' : `Plătește ${total} RON cu cardul`}
-            </button>
-          </form>
-
-          <aside className="summary">
-            <h3>Rezumat</h3>
-            <div className="summary__car">
-              <span className="summary__logo"><img className="brand__logo brand__logo--sm" src={car.logo} alt={`Sigla ${car.brand}`} /></span>
-              <div>
-                <strong>{car.brand} {car.model}</strong>
-                <span>{car.cls}</span>
+            <section className="booking-panel">
+              <div className="booking-panel__heading"><span className="step-index">02</span><div><h3>Alege data</h3><p>{trip === 'dusIntors' ? 'Selectează plecarea, apoi întoarcerea.' : 'Selectează ziua plecării.'}</p></div></div>
+              <DateCalendar trip={trip} departDate={form.departDate} returnDate={form.returnDate} onSelect={updateDates} />
+              {(errors.departDate || errors.returnDate) && <p className="field-error">{errors.departDate || errors.returnDate}</p>}
+              <div className="date-times">
+                <label className="field"><span>Ora plecării <b>*</b></span><input type="time" name="departTime" value={form.departTime} onChange={update} />{errors.departTime && <small className="field-error">{errors.departTime}</small>}</label>
+                {trip === 'dusIntors' && <label className="field"><span>Ora întoarcerii <b>*</b></span><input type="time" name="returnTime" value={form.returnTime} onChange={update} />{errors.returnTime && <small className="field-error">{errors.returnTime}</small>}</label>}
               </div>
-            </div>
-            <ul className="summary__list">
-              <li><span>Tip</span><strong>{trip === 'dusIntors' ? 'Dus-întors' : 'Doar dus'}</strong></li>
-              <li><span>Tarif bază</span><strong>{base} RON</strong></li>
-              {extraSeats > 0 && (
-                <li><span>Locuri suplim.</span><strong>{extraSeats} RON</strong></li>
-              )}
-              <li><span>Locuri</span><strong>{seats}</strong></li>
-            </ul>
-            <div className="summary__total">
-              <span>Total de plată</span>
-              <strong>{total} RON</strong>
-            </div>
-            <p className="summary__pay">💳 Plată doar cu cardul</p>
+            </section>
+
+            <section className="booking-panel">
+              <div className="booking-panel__heading"><span className="step-index">03</span><div><h3>Alege mașina și pasagerii</h3><p>Ambele mașini au maximum 5 locuri.</p></div></div>
+              <div className="vehicle-picker">
+                {vehicles.map((item) => (
+                  <button type="button" key={item.id} className={'vehicle-option' + (vehicle === item.id ? ' is-active' : '')} onClick={() => { setVehicle(item.id); sessionStorage.setItem('srs_class', item.id) }}>
+                    <span className="vehicle-option__logo"><img src={item.logo} alt="" /></span>
+                    <span className="vehicle-option__text"><strong>{item.brand} {item.model}</strong><small>{item.cls} · {item.seats} locuri</small></span>
+                    <span className="vehicle-option__price">{trip === 'dusIntors' ? item.priceBoth : item.priceDus}<small> RON</small></span>
+                    <span className="vehicle-option__check">✓</span>
+                  </button>
+                ))}
+              </div>
+              <label className="field field--passengers"><span>Număr pasageri</span><select value={seats} onChange={(event) => setSeats(Number(event.target.value))}>{[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n} {n === 1 ? 'pasager' : 'pasageri'}</option>)}</select></label>
+            </section>
+
+            <section className="booking-panel">
+              <div className="booking-panel__heading"><span className="step-index">04</span><div><h3>Detaliile tale</h3><p>Unde te preluăm și cum te contactăm?</p></div></div>
+              <div className="fields-grid">
+                <label className="field"><span>Nume complet <b>*</b></span><input name="name" autoComplete="name" value={form.name} onChange={update} placeholder="Numele tău" />{errors.name && <small className="field-error">{errors.name}</small>}</label>
+                <label className="field"><span>Telefon <b>*</b></span><input name="phone" type="tel" autoComplete="tel" value={form.phone} onChange={update} placeholder="07xx xxx xxx" />{errors.phone && <small className="field-error">{errors.phone}</small>}</label>
+                <label className="field"><span>Email <small>opțional</small></span><input name="email" type="email" autoComplete="email" value={form.email} onChange={update} placeholder="nume@email.ro" />{errors.email && <small className="field-error">{errors.email}</small>}</label>
+                <label className="field"><span>Adresă preluare în Brăila <b>*</b></span><input name="pickup" autoComplete="street-address" value={form.pickup} onChange={update} placeholder="Stradă, număr, localitate" />{errors.pickup && <small className="field-error">{errors.pickup}</small>}</label>
+                <label className="field"><span>Zbor la plecare <small>opțional</small></span><input name="flightOut" value={form.flightOut} onChange={update} placeholder="ex. RO 302" /></label>
+                {trip === 'dusIntors' && <label className="field"><span>Zbor la întoarcere <small>opțional</small></span><input name="flightBack" value={form.flightBack} onChange={update} placeholder="ex. RO 303" /></label>}
+                <label className="field field--wide"><span>Observații <small>opțional</small></span><textarea name="notes" rows="3" value={form.notes} onChange={update} placeholder="Bagaje, scaun copil sau alte detalii" /></label>
+              </div>
+            </section>
+          </div>
+
+          <aside className="booking-summary">
+            <div className="booking-summary__eyebrow"><span className="eyebrow__dot" /> Estimare cursă</div>
+            <h3>Detaliile<br /><em>călătoriei.</em></h3>
+            <div className="summary-route"><span className="summary-route__line" /><div><small>Plecare</small><strong>Brăila</strong><span>{form.departDate ? formatDate(form.departDate) : 'Alege data'}</span></div><div><small>Destinație</small><strong>Otopeni · OTP</strong><span>{trip === 'dusIntors' ? form.returnDate ? formatDate(form.returnDate) : 'Alege întoarcerea' : 'Doar dus'}</span></div></div>
+            <div className="summary-car"><img src={car.logo} alt="" /><div><strong>{car.brand} {car.model}</strong><span>{car.cls} · {seats} {seats === 1 ? 'pasager' : 'pasageri'}</span></div></div>
+            <div className="summary-price"><span>Tarif de bază</span><strong>{base} RON</strong></div>
+            {extraSeats > 0 && <div className="summary-price"><span>Loc suplimentar</span><strong>{extraSeats} RON</strong></div>}
+            <div className="summary-total"><span>Estimare totală</span><strong>{total} <small>RON</small></strong></div>
+            <p className="booking-summary__note">Solicitarea nu confirmă automat ora cursei și nu încasează o plată. Confirmarea se face după verificarea disponibilității.</p>
+            {submitError && <p className="submit-error" role="alert">{submitError}</p>}
+            <button className="button button--primary booking-submit" type="submit" disabled={phase === 'sending'}>{phase === 'sending' ? 'Se trimite…' : 'Trimite solicitarea'} <span aria-hidden="true">↗</span></button>
+            <p className="booking-summary__foot">Prin trimitere, datele sunt folosite pentru gestionarea solicitării tale.</p>
           </aside>
-        </div>
+        </form>
       </div>
     </section>
   )

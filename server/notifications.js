@@ -9,8 +9,11 @@ function detailLines(a) {
     `Tip: ${a.trip === 'dusIntors' ? 'Dus-întors' : 'Doar dus'}`,
     `Locuri: ${a.seats}`,
     `Plecare: ${a.departDate || '?'} ${a.departTime || ''}`.trim(),
+    a.flightOut ? `Zbor plecare: ${a.flightOut}` : null,
     a.returnDate ? `Întoarcere: ${a.returnDate} ${a.returnTime}` : null,
+    a.flightBack ? `Zbor retur: ${a.flightBack}` : null,
     `Preluare: ${a.pickup}`,
+    a.notes ? `Observații: ${a.notes}` : null,
     `Total: ${a.amount} RON`,
   ]
     .filter(Boolean)
@@ -18,11 +21,12 @@ function detailLines(a) {
 }
 
 export function appointmentText(a) {
-  return `Programare nouă SRS Transfer\n${detailLines(a)}`
+  return `Solicitare nouă SRS Transfer\n${detailLines(a)}`
 }
 
 export function appointmentHtml(a) {
-  return `<h3>Programare nouă SRS Transfer</h3><pre>${detailLines(a)}</pre>`
+  const safe = detailLines(a).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
+  return `<h3>Solicitare nouă SRS Transfer</h3><pre>${safe}</pre>`
 }
 
 let transporter
@@ -83,7 +87,7 @@ export async function notifyNewAppointment(a) {
     tasks.push(
       sendEmail({
         to: process.env.ADMIN_EMAIL,
-        subject: 'Programare nouă SRS Transfer',
+        subject: 'Solicitare nouă SRS Transfer',
         text,
         html: appointmentHtml(a),
       }).catch((e) => console.error('email admin:', e))
@@ -100,9 +104,9 @@ export async function notifyNewAppointment(a) {
 }
 
 export async function notifyClient(a) {
-  const text = `SRS Transfer: ai programat ${
-    a.trip === 'dusIntors' ? 'dus-întors' : 'dus'
-  } cu ${a.vehicle}. Total ${a.amount} RON. Te sunăm pentru confirmare.`
+  const text = `SRS Transfer: am primit solicitarea ta pentru ${
+    a.trip === 'dusIntors' ? 'dus-întors' : 'o cursă dus'
+  } cu ${a.vehicle}. Estimare ${a.amount} RON. Ora se confirmă după verificarea disponibilității.`
   const tasks = []
   if (a.email) {
     tasks.push(

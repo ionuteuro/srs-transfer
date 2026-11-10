@@ -1,105 +1,54 @@
 # SRS Transfer
 
-Site pentru **transfer aeroport Otopeni dus-întors** (București / Ilfov), cu:
-rezervări online, flotă (Dacia Logan, Toyota Corolla), plată cu cardul prin
-**Netopia (mobilPay)**, agent AI, notificări (email/SMS), admin cu tabel +
-calendar și bază de date **SQLite**.
+Site de prezentare și solicitare transfer privat **Brăila ↔ Aeroportul Otopeni**. Include selectare de dată în calendar, estimare de tarif, cereri salvate în SQLite, notificări configurabile și panou de administrare cu calendar.
 
-## Cerințe
-- Node.js 18+ (testat pe 22.x)
-- `npm`
+## Pornire
 
-## Instalare
+Necesită Node.js 18+ și npm.
+
 ```bash
 npm install
+npm run dev
 ```
 
-## Comenzi
-| Comandă | Ce face |
-| --- | --- |
-| `npm run dev` | Rulează frontend (Vite :5173) **+** backend (Express :3001) împreună (mod dezvoltare). |
-| `npm run start` | Build + pornește serverul de producție pe **:3001** (frontend + API + SQLite). |
-| `npm run server` | Doar backend-ul Express (:3001). |
-| `npm run dev:web` / `npm run dev:api` | Doar frontendul / doar backend-ul. |
-| `npm run build` | Build de producție în `dist/`. |
-| `npm run preview` | Previzualizează build-ul (Vite, :4173). |
-| `npm run test` | Rulează testele (Vitest) — **33 teste**. |
-| `npm run reset` | Șterge baza de date (`data/srs.db`). Oprește serverul înainte. |
+Deschide `http://localhost:5173`. Pentru build local și servirea site-ului împreună cu API-ul:
 
-## Cum rulezi totul (varianta recomandată)
 ```bash
-npm install
 npm run start
 ```
-Apoi deschizi în browser:
-- Site: **http://localhost:3001/**
-- Admin + calendar: **http://localhost:3001/admin** (token demo `srs-admin`)
 
-Pentru dezvoltare, folosește `npm run dev` și deschizi **http://localhost:5173**.
+Site: `http://localhost:3001/` · Administrare: `http://localhost:3001/admin`
 
-> **Build-ul e single-file:** `dist/index.html` conține totul inline, așa că
-> poți da dublu-click pe el și site-ul se deschide direct (`file://`).
-> Atenție: fără server, funcțiile care folosesc backend-ul (rezervare reală,
-> agentul, adminul, notificările) nu vor comunica — UI-ul se încarcă, dar
-> apelurile `/api` eșuează. Pentru funcționalitate completă folosește
-> `npm run start` și deschide **http://localhost:3001**.
+Comenzi utile: `npm run build`, `npm run server`, `npm run test`, `npm run reset`.
 
-> Nu deschide `srs-transfer/index.html` (sursa Vite) — acela e doar intrarea
-> pentru `npm run dev`, nu un build.
+## Fluxul de rezervare
 
-## Variabile de mediu (`.env`)
-Copiază `.env.example` → `.env`. Totul e opțional; în lipsa lor, plata și
-notificările merg în **mod mock** (se afișează în consola serverului).
+Clientul alege tipul cursei, datele din calendar, mașina și pasagerii, apoi trimite solicitarea. Serverul validează datele și calculează tariful din catalogul comun. Cererea apare cu statusul **În așteptare** în panoul de administrare. Trimiterea formularului nu confirmă automat ora și nu încasează o plată online.
 
-### Plată — Netopia (mobilPay), clasic / hosted redirect
-| Variabilă | Descriere |
+Tarifele inițiale sunt 800 RON pe sens și 1600 RON dus-întors pentru Dacia Logan și Toyota Corolla. Locul al cincilea adaugă 10 RON. Actualizează catalogul din `src/data/vehicle-catalog.js` când se schimbă tarifele sau flota.
+
+## Configurare (`.env`)
+
+Copiază `.env.example` în `.env`.
+
+| Variabilă | Rol |
 | --- | --- |
-| `NETOPIA_SIGNATURE` | Signature-ul contului tău Netopia. |
-| `NETOPIA_CERT` | Calea către certificatul public `.cer`. |
-| `NETOPIA_KEY` | Calea către cheia privată `.pem` (decriptare IPN). |
-| `NETOPIA_SANDBOX` | `true` = sandbox, `false` = producție. |
-| `PUBLIC_BASE` | URL public pentru IPN/return (ex. `https://domeniu.ro`). |
+| `ADMIN_TOKEN` | Token necesar pentru API-ul și pagina de administrare. Nu există token demo implicit. |
+| `DB_PATH` | Calea bazei SQLite; implicit `data/srs.db`. |
+| `ADMIN_EMAIL`, `ADMIN_PHONE` | Destinatarii notificărilor despre cereri noi. |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Trimitere email prin SMTP. |
+| `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM` | Trimitere SMS prin Twilio. |
+| `OPENAI_API_KEY`, `OPENAI_MODEL` | Agent conversațional; fără cheie răspunde FAQ-ul local. |
+| `PORT` | Portul Express; implicit `3001`. |
 
-### Admin
-| Variabilă | Descriere |
-| --- | --- |
-| `ADMIN_TOKEN` | Token-ul pentru `/admin` și API-ul de programări. Fără el, e `srs-admin`. |
-
-### Notificări (email + SMS)
-| Variabilă | Descriere |
-| --- | --- |
-| `ADMIN_EMAIL` / `ADMIN_PHONE` | Unde primești notificare la fiecare programare nouă. |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Email prin SMTP. |
-| `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM` | SMS prin Twilio. |
-
-### Altele
-| Variabilă | Descriere |
-| --- | --- |
-| `OPENAI_API_KEY` | Activează agentul AI real (LLM). Fără ea → mod FAQ. |
-| `OPENAI_MODEL` | Modelul (default `gpt-4o-mini`). |
-| `PORT` | Port backend (default `3001`). |
-| `DB_PATH` | Calea bazei SQLite (default `data/srs.db`). |
+Fără setări SMTP sau Twilio, notificările sunt simulate în consola serverului. Pentru folosirea API-ului, rulează backend-ul Express; publicarea doar a directorului `dist/` pe GitHub Pages nu oferă API.
 
 ## Structură
-```
-src/
-  components/   Header, Hero, Services, Fleet, Pricing, Booking,
-                Contact, Footer, Agent, Admin
-  lib/          pricing.js, validators.js, faq.js
-  data/         vehicles.js
-  App.jsx, main.jsx, index.css
-server/
-  index.js          Express: /api/* (appointments, create-payment, ipn, agent)
-  netopia.js        criptare/decriptare clasică mobilPay
-  notifications.js  email (SMTP) + SMS (Twilio), fallback mock
-  store.js          acces SQLite
-  db.js             conexiune + schemă
-scripts/
-  reset-db.js       șterge baza de date
-```
 
-## Note
-- Fără cheile Netopia → plata e **simulată** (nu trage bani reali).
-- Fără SMTP/Twilio → notificările se **loghează** în consola serverului.
-- Baza de date e un fișier local (`data/srs.db`), ideal pentru un singur server.
-  Pentru mai multe instanțe, înlocuiește `server/db.js` cu Postgres/MySQL.
+```text
+src/components/       paginile, calendarul de rezervare și administrarea
+src/data/             catalog comun pentru mașini și tarife
+src/lib/               prețuri, validări și răspunsuri FAQ
+server/                API Express, SQLite și notificări
+scripts/reset-db.js    șterge baza locală
+```
